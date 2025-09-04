@@ -33,30 +33,38 @@ export default function QuotationApp() {
 
   // Local storage persistence
   useEffect(() => {
-    const saved = localStorage.getItem('webnova-quotation');
-    if (saved) {
-      try {
+    try {
+      const saved = typeof window !== 'undefined'
+        ? localStorage.getItem('webnova-quotation')
+        : null;
+      if (saved) {
         const data = JSON.parse(saved);
         setClientName(data.clientName || "");
         setProjectType(data.projectType || "");
         setModules(data.modules || DEFAULT_MODULES);
         setSelectedModuleIds(data.selectedModuleIds || []);
         setNextId(data.nextId || 15);
-      } catch (error) {
-        console.error('Error loading saved data:', error);
       }
+    } catch (error) {
+      console.error('Error loading saved data:', error);
     }
   }, []);
 
   useEffect(() => {
-    const data = {
-      clientName,
-      projectType,
-      modules,
-      selectedModuleIds,
-      nextId
-    };
-    localStorage.setItem('webnova-quotation', JSON.stringify(data));
+    if (typeof window !== 'undefined') {
+      try {
+        const data = {
+          clientName,
+          projectType,
+          modules,
+          selectedModuleIds,
+          nextId
+        };
+        localStorage.setItem('webnova-quotation', JSON.stringify(data));
+      } catch (error) {
+        console.error('Error saving data:', error);
+      }
+    }
   }, [clientName, projectType, modules, selectedModuleIds, nextId]);
 
   // Event handlers
