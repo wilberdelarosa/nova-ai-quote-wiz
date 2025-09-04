@@ -219,7 +219,7 @@ export const AIAssistant = ({
           <Button 
             onClick={handleCustomPrompt}
             disabled={isProcessingCustom || !customPrompt.trim()}
-            className="w-full bg-white/20 hover:bg-white/30 text-white font-bold transition-smooth"
+            className="w-full bg-white/20 hover:bg-white/30 text-gray-900 font-bold transition-smooth"
             variant="secondary"
           >
             {isProcessingCustom ? (
@@ -238,7 +238,7 @@ export const AIAssistant = ({
             <Button 
               onClick={handleAnalyzeProject}
               disabled={isAnalyzing}
-              className="bg-white/20 hover:bg-white/30 text-white font-bold transition-smooth text-xs"
+              className="bg-white/20 hover:bg-white/30 text-gray-900 font-bold transition-smooth text-xs"
               variant="secondary"
               size="sm"
             >
@@ -253,7 +253,7 @@ export const AIAssistant = ({
             <Button 
               onClick={handleOptimizePricing}
               disabled={isOptimizing}
-              className="bg-white/20 hover:bg-white/30 text-white font-bold transition-smooth text-xs"
+              className="bg-white/20 hover:bg-white/30 text-gray-900 font-bold transition-smooth text-xs"
               variant="secondary"
               size="sm"
             >
@@ -268,7 +268,7 @@ export const AIAssistant = ({
             <Button 
               onClick={handleEvaluatePaymentGateway}
               disabled={isEvaluatingPayment}
-              className="bg-white/20 hover:bg-white/30 text-white font-bold transition-smooth text-xs"
+              className="bg-white/20 hover:bg-white/30 text-gray-900 font-bold transition-smooth text-xs"
               variant="secondary"
               size="sm"
             >
@@ -283,7 +283,7 @@ export const AIAssistant = ({
             <Button 
               onClick={handleGenerateTimeline}
               disabled={isGeneratingTimeline}
-              className="bg-white/20 hover:bg-white/30 text-white font-bold transition-smooth text-xs"
+              className="bg-white/20 hover:bg-white/30 text-gray-900 font-bold transition-smooth text-xs"
               variant="secondary"
               size="sm"
             >

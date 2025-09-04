@@ -71,7 +71,7 @@ export const ModuleCard = ({
         
         {/* Description */}
         <div className="mb-6">
-          <p className="text-sm text-gray-600 leading-relaxed break-words line-clamp-3">
+          <p className="text-sm text-gray-800 leading-relaxed break-words line-clamp-3">
             {module.description}
           </p>
         </div>

@@ -67,7 +67,7 @@ export const PDFPreview = ({
           </CardTitle>
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-2">
-              <Palette className="w-4 h-4 text-gray-600" />
+              <Palette className="w-4 h-4 text-gray-800" />
               <Label htmlFor="theme-switch" className="text-sm font-medium">
                 Tema Oscuro
               </Label>
