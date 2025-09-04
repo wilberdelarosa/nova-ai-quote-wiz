@@ -15,6 +15,7 @@ interface PDFPreviewProps {
   projectType: string;
   selectedModules: Module[];
   totalAmount: number;
+  usdRate: number;
 }
 
 export const PDFPreview = ({ 
@@ -22,8 +23,9 @@ export const PDFPreview = ({
   onClose, 
   clientName, 
   projectType, 
-  selectedModules, 
-  totalAmount 
+  selectedModules,
+  totalAmount,
+  usdRate
 }: PDFPreviewProps) => {
   const [isDarkTheme, setIsDarkTheme] = useState(false);
   const [isGenerating, setIsGenerating] = useState(false);
@@ -40,6 +42,7 @@ export const PDFPreview = ({
         projectType,
         selectedModules,
         totalAmount,
+        usdRate,
         isDarkTheme
       );
     } catch (error) {
@@ -54,6 +57,7 @@ export const PDFPreview = ({
     projectType,
     selectedModules,
     totalAmount,
+    usdRate,
     isDarkTheme
   );
 

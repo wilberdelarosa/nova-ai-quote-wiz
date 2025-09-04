@@ -9,6 +9,7 @@ import { ControlButtons } from "@/components/ControlButtons";
 import { AISuggestions } from "@/components/AISuggestions";
 import { Card, CardContent } from "@/components/ui/card";
 import { Module, DEFAULT_MODULES, QuotationData } from "@/types/quotation";
+import { fetchUsdToDopRate } from "@/services/exchangeRate";
 
 export default function QuotationApp() {
   const [clientName, setClientName] = useState("");
@@ -19,6 +20,7 @@ export default function QuotationApp() {
   const [aiSuggestions, setAISuggestions] = useState("");
   const [showAISuggestions, setShowAISuggestions] = useState(false);
   const [nextId, setNextId] = useState(15);
+  const [usdRate, setUsdRate] = useState(0);
 
   // Computed values
   const selectedModules = useMemo(() => 
@@ -48,6 +50,10 @@ export default function QuotationApp() {
     } catch (error) {
       console.error('Error loading saved data:', error);
     }
+
+    fetchUsdToDopRate().then(setUsdRate).catch(err => {
+      console.error('Error fetching USD rate:', err);
+    });
   }, []);
 
   useEffect(() => {
@@ -200,6 +206,7 @@ export default function QuotationApp() {
                   modules={modules}
                   selectedModules={selectedModules}
                   totalAmount={totalAmount}
+                  usdRate={usdRate}
                   onImportData={handleImportData}
                   onClearSelection={handleClearSelection}
                 />
@@ -236,6 +243,7 @@ export default function QuotationApp() {
         <ProjectSummary
           selectedModules={selectedModules}
           totalAmount={totalAmount}
+          usdRate={usdRate}
           onRemoveModule={handleToggleModule}
         />
       </div>

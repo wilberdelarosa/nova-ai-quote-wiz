@@ -1,18 +1,20 @@
 import { TrendingUp, X } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Module, USD_RATE } from "@/types/quotation";
+import { Module } from "@/types/quotation";
 
 interface ProjectSummaryProps {
   selectedModules: Module[];
   totalAmount: number;
+  usdRate: number;
   onRemoveModule: (moduleId: number) => void;
 }
 
-export const ProjectSummary = ({ 
-  selectedModules, 
-  totalAmount, 
-  onRemoveModule 
+export const ProjectSummary = ({
+  selectedModules,
+  totalAmount,
+  usdRate,
+  onRemoveModule
 }: ProjectSummaryProps) => {
   if (selectedModules.length === 0) {
     return (
@@ -97,7 +99,7 @@ export const ProjectSummary = ({
             RD$ {totalAmount.toLocaleString()}
           </p>
           <p className="text-sm text-webnova-100 mt-2">
-            ≈ US$ {Math.round(totalAmount / USD_RATE)}
+            ≈ US$ {usdRate ? Math.round(totalAmount / usdRate) : '...'}
           </p>
         </div>
       </CardContent>
