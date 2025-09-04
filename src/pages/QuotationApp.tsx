@@ -122,9 +122,9 @@ export default function QuotationApp() {
   };
 
   return (
-    <div className="bg-gradient-to-br from-gray-900 via-gray-800 to-webnova-900 min-h-screen font-inter">
+    <div className="bg-gradient-to-br from-gray-950 via-webnova-900 to-black min-h-screen font-inter">
       {/* Header */}
-      <div className="relative overflow-hidden bg-gradient-to-r from-webnova-600 via-webnova-500 to-webnova-400">
+      <div className="relative overflow-hidden bg-gradient-to-r from-webnova-700 via-webnova-600 to-webnova-500">
         <div className="absolute inset-0 bg-black opacity-20"></div>
         <div className="relative container mx-auto px-6 py-16 text-center">
           <div className="animate-float mb-8">
