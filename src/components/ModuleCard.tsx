@@ -28,8 +28,8 @@ export const ModuleCard = ({
   };
 
   return (
-    <Card 
-      className="group relative bg-gradient-to-br from-white via-gray-50 to-gray-100 hover:from-webnova-50 hover:via-white hover:to-webnova-50 transition-all duration-300 shadow-lg hover:shadow-elegant border border-gray-200 hover:border-webnova-300 transform hover:-translate-y-2"
+    <Card
+      className="group relative bg-white/5 backdrop-blur-lg border border-white/10 hover:border-webnova-400/50 transition-all duration-300 shadow-card hover:shadow-glow transform hover:-translate-y-2"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -37,14 +37,14 @@ export const ModuleCard = ({
         {/* Module Header */}
         <div className="flex justify-between items-start mb-4">
           <div className="flex-1 pr-4">
-            <h3 className="text-lg font-bold text-gray-800 group-hover:text-webnova-700 transition-colors duration-200 leading-tight mb-2 break-words">
+            <h3 className="text-lg font-bold text-white group-hover:text-webnova-200 transition-colors duration-200 leading-tight mb-2 break-words">
               {module.name}
             </h3>
-            <p className="text-2xl font-black text-webnova-600">
+            <p className="text-2xl font-black text-webnova-300">
               RD$ {module.price.toLocaleString()}
             </p>
             {module.category && (
-              <span className="inline-block mt-2 px-2 py-1 bg-webnova-100 text-webnova-700 text-xs font-semibold rounded-full">
+              <span className="inline-block mt-2 px-2 py-1 bg-webnova-500/20 text-webnova-100 text-xs font-semibold rounded-full">
                 {module.category}
               </span>
             )}
@@ -55,7 +55,7 @@ export const ModuleCard = ({
             <Button
               onClick={() => onEdit(module)}
               size="sm"
-              className="p-2 bg-blue-500 hover:bg-blue-600 text-white rounded-full shadow-md transform hover:scale-110 transition-bounce"
+              className="p-2 bg-webnova-500 hover:bg-webnova-600 text-white rounded-full shadow-md transform hover:scale-110 transition-bounce"
             >
               <Edit className="w-3 h-3" />
             </Button>
@@ -68,10 +68,10 @@ export const ModuleCard = ({
             </Button>
           </div>
         </div>
-        
+
         {/* Description */}
         <div className="mb-6">
-          <p className="text-sm text-gray-800 leading-relaxed break-words line-clamp-3">
+          <p className="text-sm text-gray-200 leading-relaxed break-words line-clamp-3">
             {module.description}
           </p>
         </div>
