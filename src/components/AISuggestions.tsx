@@ -3,6 +3,8 @@ import { Lightbulb, X, Edit, Save, RotateCcw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
+import { marked } from "marked";
+import DOMPurify from "dompurify";
 
 interface AISuggestionsProps {
   content: string;
@@ -14,19 +16,18 @@ interface AISuggestionsProps {
 export const AISuggestions = ({ content, isVisible, onClose, onEdit }: AISuggestionsProps) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editedContent, setEditedContent] = useState("");
-  const [originalContent, setOriginalContent] = useState("");
 
   if (!isVisible) return null;
 
   const handleStartEdit = () => {
-    setOriginalContent(content);
     setEditedContent(content.replace(/<[^>]*>/g, ''));
     setIsEditing(true);
   };
 
   const handleSaveEdit = () => {
     if (onEdit) {
-      onEdit(`<div class="text-white prose prose-invert max-w-none">${editedContent.replace(/\n/g, '<br>')}</div>`);
+      const html = DOMPurify.sanitize(marked.parse(editedContent));
+      onEdit(`<div class="text-white prose prose-invert max-w-none">${html}</div>`);
     }
     setIsEditing(false);
   };

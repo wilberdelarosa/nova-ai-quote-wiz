@@ -6,6 +6,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { AIService } from "@/services/aiService";
 import { Module } from "@/types/quotation";
 import { useToast } from "@/hooks/use-toast";
+import { marked } from "marked";
+import DOMPurify from "dompurify";
 
 interface AIAssistantProps {
   clientName: string;
@@ -32,8 +34,10 @@ export const AIAssistant = ({
 
   const aiService = new AIService();
 
-  const formatResponse = (response: string) =>
-    /<[^>]+>/.test(response) ? response : response.replace(/\n/g, '<br>');
+  const formatResponse = (response: string) => {
+    const raw = /<[^>]+>/.test(response) ? response : marked.parse(response);
+    return DOMPurify.sanitize(raw);
+  };
 
   const handleAnalyzeProject = async () => {
     if (!clientName.trim() || !projectType.trim()) {
