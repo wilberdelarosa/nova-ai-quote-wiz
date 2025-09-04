@@ -30,6 +30,7 @@ export const ModuleCard = ({
   return (
     <Card
       className="group relative bg-gradient-card hover-gradient backdrop-blur-lg border border-white/10 hover:border-webnova-400/50 shadow-card hover-3d transition-all duration-500"
+
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -56,6 +57,7 @@ export const ModuleCard = ({
               onClick={() => onEdit(module)}
               size="sm"
               className="p-2 bg-webnova-500 hover:bg-webnova-600 text-white rounded-full shadow-md transform hover:scale-110 hover:-translate-y-0.5 hover:rotate-6 transition-bounce"
+
             >
               <Edit className="w-3 h-3" />
             </Button>

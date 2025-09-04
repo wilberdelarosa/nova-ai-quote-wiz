@@ -28,6 +28,7 @@ export const ClientForm = ({
           value={clientName}
           onChange={(e) => onClientNameChange(e.target.value)}
           className="bg-white/10 border-white/20 text-white placeholder-gray-400 hover:bg-white/20 hover:border-webnova-400/40 focus:ring-webnova-500 focus:border-transparent transition-smooth font-medium"
+
         />
       </div>
       <div className="space-y-2">
@@ -41,6 +42,7 @@ export const ClientForm = ({
           value={projectType}
           onChange={(e) => onProjectTypeChange(e.target.value)}
           className="bg-white/10 border-white/20 text-white placeholder-gray-400 hover:bg-white/20 hover:border-webnova-400/40 focus:ring-webnova-500 focus:border-transparent transition-smooth font-medium"
+
         />
       </div>
     </div>
