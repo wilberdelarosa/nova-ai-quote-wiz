@@ -29,7 +29,8 @@ export const ModuleCard = ({
 
   return (
     <Card
-      className="group relative bg-white/5 backdrop-blur-lg border border-white/10 hover:border-webnova-400/50 transition-all duration-300 shadow-card hover:shadow-glow transform hover:-translate-y-2"
+      className="group relative bg-gradient-card hover-gradient backdrop-blur-lg border border-white/10 hover:border-webnova-400/50 shadow-card hover-3d transition-all duration-500"
+
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -55,14 +56,15 @@ export const ModuleCard = ({
             <Button
               onClick={() => onEdit(module)}
               size="sm"
-              className="p-2 bg-webnova-500 hover:bg-webnova-600 text-white rounded-full shadow-md transform hover:scale-110 transition-bounce"
+              className="p-2 bg-webnova-500 hover:bg-webnova-600 text-white rounded-full shadow-md transform hover:scale-110 hover:-translate-y-0.5 hover:rotate-6 transition-bounce"
+
             >
               <Edit className="w-3 h-3" />
             </Button>
             <Button
               onClick={handleDelete}
               size="sm"
-              className="p-2 bg-red-500 hover:bg-red-600 text-white rounded-full shadow-md transform hover:scale-110 transition-bounce"
+              className="p-2 bg-red-500 hover:bg-red-600 text-white rounded-full shadow-md transform hover:scale-110 hover:-translate-y-0.5 hover:rotate-6 transition-bounce"
             >
               <Trash2 className="w-3 h-3" />
             </Button>
@@ -79,9 +81,9 @@ export const ModuleCard = ({
         {/* Action Button */}
         <Button
           onClick={() => onToggleSelect(module.id)}
-          className={`w-full py-3 font-bold shadow-md transform hover:scale-105 transition-bounce ${
-            isSelected 
-              ? 'bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white' 
+          className={`w-full py-3 font-bold shadow-md hover:shadow-glow transform hover:scale-105 transition-bounce hover-gradient ${
+            isSelected
+              ? 'bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white'
               : 'bg-gradient-primary hover:bg-gradient-secondary text-white'
           }`}
         >

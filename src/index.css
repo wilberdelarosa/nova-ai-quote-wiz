@@ -139,6 +139,30 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
+
+  @keyframes gradient-flow {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  .hover-gradient {
+    background-size: 200% 200%;
+    transition: background-position 0.5s ease;
+  }
+
+  .hover-gradient:hover {
+    animation: gradient-flow 3s ease infinite;
+  }
+
+  .hover-3d {
+    transition: transform 0.3s var(--transition-bounce), box-shadow 0.3s var(--transition-smooth);
+  }
+
+  .hover-3d:hover {
+    transform: perspective(1000px) rotateX(3deg) rotateY(-3deg) translateY(-4px) scale(1.02);
+    box-shadow: var(--shadow-glow);
+  }
   
   .ai-thinking {
     background: linear-gradient(-45deg, hsl(291 76% 65%), hsl(338 90% 62%), hsl(189 90% 60%), hsl(var(--webnova-400)));
