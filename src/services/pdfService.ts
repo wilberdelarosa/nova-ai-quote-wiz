@@ -1,6 +1,6 @@
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
-import { Module, USD_RATE } from '../types/quotation';
+import { Module } from '../types/quotation';
 
 export class PDFService {
   async generateProfessionalPDF(
@@ -8,6 +8,7 @@ export class PDFService {
     projectType: string,
     selectedModules: Module[],
     totalAmount: number,
+    usdRate: number,
     isDarkTheme: boolean = false
   ): Promise<void> {
     if (!clientName.trim()) {
@@ -18,7 +19,7 @@ export class PDFService {
       throw new Error('Por favor, selecciona al menos un módulo para generar la cotización.');
     }
 
-    const pdfContent = this.createPDFContent(clientName, projectType, selectedModules, totalAmount, isDarkTheme);
+    const pdfContent = this.createPDFContent(clientName, projectType, selectedModules, totalAmount, usdRate, isDarkTheme);
     
     // Create temporary container for rendering
     const container = document.createElement('div');
@@ -73,6 +74,7 @@ export class PDFService {
     projectType: string,
     selectedModules: Module[],
     totalAmount: number,
+    usdRate: number,
     isDarkTheme: boolean = false
   ): string {
     const currentDate = new Date().toLocaleDateString('es-DO', { 
@@ -166,7 +168,7 @@ export class PDFService {
           <div style="font-size: 36px; font-weight: 900; margin: 10px 0;">
             RD$ ${totalAmount.toLocaleString()}
           </div>
-          <p style="margin: 0;">(≈ US$ ${Math.round(totalAmount / USD_RATE)} al tipo de cambio RD$ ${USD_RATE})</p>
+          <p style="margin: 0;">(≈ US$ ${usdRate ? Math.round(totalAmount / usdRate) : '...'} al tipo de cambio RD$ ${usdRate || '...'})</p>
         </div>
 
         <!-- Payment Schedule -->

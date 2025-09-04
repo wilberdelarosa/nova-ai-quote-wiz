@@ -22,6 +22,7 @@ export const ModuleCard = ({
   const [isHovered, setIsHovered] = useState(false);
 
   const handleDelete = () => {
+    if (typeof window === 'undefined') return;
     if (window.confirm('¿Estás seguro de que deseas eliminar este módulo?')) {
       onDelete(module.id);
     }

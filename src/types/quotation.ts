@@ -58,5 +58,3 @@ export const DEFAULT_MODULES: Module[] = [
   { id: 13, name: "Inventario Futuro", price: 9000, description: "Módulo adicional para gestión de inventario de vehículos", category: "Backend" },
   { id: 14, name: "Control de Usuario (Futuro)", price: 12000, description: "Sistema de login, roles y clientes registrados", category: "Backend" }
 ];
-
-export const USD_RATE = 60; // 1 USD = 60 RD$

@@ -9,6 +9,7 @@ import { ControlButtons } from "@/components/ControlButtons";
 import { AISuggestions } from "@/components/AISuggestions";
 import { Card, CardContent } from "@/components/ui/card";
 import { Module, DEFAULT_MODULES, QuotationData } from "@/types/quotation";
+import { fetchUsdToDopRate } from "@/services/exchangeRate";
 
 export default function QuotationApp() {
   const [clientName, setClientName] = useState("");
@@ -19,6 +20,7 @@ export default function QuotationApp() {
   const [aiSuggestions, setAISuggestions] = useState("");
   const [showAISuggestions, setShowAISuggestions] = useState(false);
   const [nextId, setNextId] = useState(15);
+  const [usdRate, setUsdRate] = useState(0);
 
   // Computed values
   const selectedModules = useMemo(() => 
@@ -48,6 +50,10 @@ export default function QuotationApp() {
     } catch (error) {
       console.error('Error loading saved data:', error);
     }
+
+    fetchUsdToDopRate().then(setUsdRate).catch(err => {
+      console.error('Error fetching USD rate:', err);
+    });
   }, []);
 
   useEffect(() => {
@@ -200,6 +206,7 @@ export default function QuotationApp() {
                   modules={modules}
                   selectedModules={selectedModules}
                   totalAmount={totalAmount}
+                  usdRate={usdRate}
                   onImportData={handleImportData}
                   onClearSelection={handleClearSelection}
                 />
@@ -219,7 +226,7 @@ export default function QuotationApp() {
         </div>
 
         {/* Modules Grid */}
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-12">
           {modules.map((module) => (
             <ModuleCard
               key={module.id}
@@ -236,6 +243,7 @@ export default function QuotationApp() {
         <ProjectSummary
           selectedModules={selectedModules}
           totalAmount={totalAmount}
+          usdRate={usdRate}
           onRemoveModule={handleToggleModule}
         />
       </div>

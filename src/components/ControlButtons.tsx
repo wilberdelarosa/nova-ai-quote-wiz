@@ -12,6 +12,7 @@ interface ControlButtonsProps {
   modules: Module[];
   selectedModules: Module[];
   totalAmount: number;
+  usdRate: number;
   onImportData: (data: QuotationData) => void;
   onClearSelection: () => void;
 }
@@ -22,6 +23,7 @@ export const ControlButtons = ({
   modules,
   selectedModules,
   totalAmount,
+  usdRate,
   onImportData,
   onClearSelection
 }: ControlButtonsProps) => {
@@ -174,6 +176,7 @@ export const ControlButtons = ({
         projectType={projectType}
         selectedModules={selectedModules}
         totalAmount={totalAmount}
+        usdRate={usdRate}
       />
     </>
   );
