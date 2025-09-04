@@ -32,6 +32,9 @@ export const AIAssistant = ({
 
   const aiService = new AIService();
 
+  const formatResponse = (response: string) =>
+    /<[^>]+>/.test(response) ? response : response.replace(/\n/g, '<br>');
+
   const handleAnalyzeProject = async () => {
     if (!clientName.trim() || !projectType.trim()) {
       toast({
@@ -45,7 +48,7 @@ export const AIAssistant = ({
     setIsAnalyzing(true);
     try {
       const analysis = await aiService.analyzeProject(clientName, projectType, selectedModules);
-      onShowSuggestions(analysis);
+      onShowSuggestions(formatResponse(analysis));
       toast({
         title: "Análisis completado",
         description: "El asistente IA ha analizado tu proyecto exitosamente.",
@@ -73,7 +76,7 @@ export const AIAssistant = ({
     setIsOptimizing(true);
     try {
       const optimization = await aiService.optimizePricing(selectedModules, totalAmount);
-      onShowSuggestions(optimization);
+      onShowSuggestions(formatResponse(optimization));
       toast({
         title: "Optimización completada",
         description: "Se han generado recomendaciones de precio.",
@@ -101,7 +104,7 @@ export const AIAssistant = ({
     setIsEvaluatingPayment(true);
     try {
       const evaluation = await aiService.evaluatePaymentGateway(projectType);
-      onShowSuggestions(evaluation);
+      onShowSuggestions(formatResponse(evaluation));
       toast({
         title: "Análisis de pagos completado",
         description: "Se han evaluado las opciones de pasarela de pago.",
@@ -129,7 +132,7 @@ export const AIAssistant = ({
     setIsGeneratingTimeline(true);
     try {
       const timeline = await aiService.generateProjectTimeline(selectedModules);
-      onShowSuggestions(timeline);
+      onShowSuggestions(formatResponse(timeline));
       toast({
         title: "Cronograma generado",
         description: "Se ha creado un timeline detallado del proyecto.",
@@ -178,7 +181,7 @@ export const AIAssistant = ({
       ];
 
       const response = await aiService.callGroqAPI(messages);
-      onShowSuggestions(response);
+      onShowSuggestions(formatResponse(response));
       setCustomPrompt("");
       toast({
         title: "Análisis personalizado completado",
@@ -210,7 +213,7 @@ export const AIAssistant = ({
             placeholder="Escribe una instrucción personalizada para la IA (ej: 'Sugiere módulos adicionales para e-commerce', 'Analiza riesgos del proyecto', etc.)"
             value={customPrompt}
             onChange={(e) => setCustomPrompt(e.target.value)}
-            className="bg-white/20 border-white/30 text-white placeholder:text-white/60 focus:bg-white/30 transition-all duration-200"
+            className="bg-white/90 border-white/30 text-gray-800 placeholder:text-gray-500 focus:bg-white transition-all duration-200"
             rows={3}
           />
           <Button 

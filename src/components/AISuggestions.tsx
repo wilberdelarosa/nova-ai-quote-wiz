@@ -72,7 +72,7 @@ export const AISuggestions = ({ content, isVisible, onClose, onEdit }: AISuggest
             <Textarea
               value={editedContent}
               onChange={(e) => setEditedContent(e.target.value)}
-              className="bg-white/20 border-white/30 text-white placeholder:text-white/60 focus:bg-white/30 transition-all duration-200 min-h-[200px]"
+              className="bg-white text-gray-800 placeholder:text-gray-500 focus:bg-gray-50 transition-all duration-200 min-h-[200px]"
               placeholder="Edita el contenido generado por la IA..."
             />
             <div className="flex gap-2">

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { createPortal } from "react-dom";
 import { X, Download, Palette, FileText } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -56,8 +57,8 @@ export const PDFPreview = ({
     isDarkTheme
   );
 
-  return (
-    <div className="fixed inset-0 bg-black/75 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+  return createPortal(
+    <div className="fixed inset-0 bg-black/75 backdrop-blur-sm z-[1000] flex items-center justify-center p-4">
       <Card className="bg-white rounded-3xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-hidden">
         <CardHeader className="flex flex-row items-center justify-between p-6 border-b">
           <CardTitle className="text-2xl font-bold text-gray-800 flex items-center gap-2">
@@ -121,6 +122,7 @@ export const PDFPreview = ({
           </div>
         </CardContent>
       </Card>
-    </div>
+    </div>,
+    document.body
   );
 };
