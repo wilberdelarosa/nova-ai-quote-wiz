@@ -8,7 +8,7 @@ interface GroqMessage {
 }
 
 export class AIService {
-  private async callGroqAPI(messages: GroqMessage[], modelIndex: number = 0): Promise<string> {
+  async callGroqAPI(messages: GroqMessage[], modelIndex: number = 0): Promise<string> {
     if (modelIndex >= GROQ_MODELS.length) {
       throw new Error('Todos los modelos fallaron');
     }

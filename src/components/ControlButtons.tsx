@@ -1,6 +1,8 @@
-import { FileText, Download, Upload, Trash2 } from "lucide-react";
+import { useState, useRef } from "react";
+import { Download, Upload, Trash2, FileText, Eye } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PDFService } from "@/services/pdfService";
+import { PDFPreview } from "@/components/PDFPreview";
 import { Module, QuotationData } from "@/types/quotation";
 import { useToast } from "@/hooks/use-toast";
 
@@ -23,28 +25,31 @@ export const ControlButtons = ({
   onImportData,
   onClearSelection
 }: ControlButtonsProps) => {
+  const [showPDFPreview, setShowPDFPreview] = useState(false);
   const { toast } = useToast();
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const pdfService = new PDFService();
 
-  const handleGeneratePDF = async () => {
-    try {
-      await pdfService.generateProfessionalPDF(
-        clientName,
-        projectType,
-        selectedModules,
-        totalAmount
-      );
+  const handlePreviewPDF = () => {
+    if (!clientName.trim()) {
       toast({
-        title: "PDF generado exitosamente",
-        description: "La cotización se ha descargado como PDF.",
-      });
-    } catch (error) {
-      toast({
-        title: "Error al generar PDF",
-        description: error instanceof Error ? error.message : "Por favor, intenta de nuevo.",
+        title: "Cliente requerido",
+        description: "Por favor, ingresa el nombre del cliente antes de generar el PDF.",
         variant: "destructive",
       });
+      return;
     }
+
+    if (selectedModules.length === 0) {
+      toast({
+        title: "Sin módulos seleccionados",
+        description: "Por favor, selecciona al menos un módulo para generar la cotización.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setShowPDFPreview(true);
   };
 
   const handleExportData = () => {
@@ -75,39 +80,37 @@ export const ControlButtons = ({
   };
 
   const handleImportData = () => {
-    const input = document.createElement('input');
-    input.type = 'file';
-    input.accept = '.json';
-    input.onchange = (event) => {
-      const file = (event.target as HTMLInputElement).files?.[0];
-      if (!file) return;
+    fileInputRef.current?.click();
+  };
 
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        try {
-          const data = JSON.parse(e.target?.result as string) as QuotationData;
-          if (data.modules && Array.isArray(data.modules)) {
-            if (window.confirm('¿Deseas reemplazar los datos actuales con los importados?')) {
-              onImportData(data);
-              toast({
-                title: "Datos importados",
-                description: "Los datos se han importado exitosamente.",
-              });
-            }
-          } else {
-            throw new Error('Formato incorrecto');
+  const handleFileImport = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      try {
+        const data = JSON.parse(e.target?.result as string) as QuotationData;
+        if (data.modules && Array.isArray(data.modules)) {
+          if (window.confirm('¿Deseas reemplazar los datos actuales con los importados?')) {
+            onImportData(data);
+            toast({
+              title: "Datos importados",
+              description: "Los datos se han importado exitosamente.",
+            });
           }
-        } catch (error) {
-          toast({
-            title: "Error al importar",
-            description: "El archivo no tiene el formato correcto.",
-            variant: "destructive",
-          });
+        } else {
+          throw new Error('Formato incorrecto');
         }
-      };
-      reader.readAsText(file);
+      } catch (error) {
+        toast({
+          title: "Error al importar",
+          description: "El archivo no tiene el formato correcto.",
+          variant: "destructive",
+        });
+      }
     };
-    input.click();
+    reader.readAsText(file);
   };
 
   const handleClearSelection = () => {
@@ -121,38 +124,57 @@ export const ControlButtons = ({
   };
 
   return (
-    <div className="flex flex-wrap gap-3 justify-center pt-6 border-t border-white/20">
-      <Button
-        onClick={handleGeneratePDF}
-        className="bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white font-bold shadow-lg transform hover:scale-105 transition-bounce flex items-center gap-2"
-      >
-        <FileText className="w-4 h-4" />
-        PDF Profesional
-      </Button>
-      
-      <Button
-        onClick={handleExportData}
-        className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-bold shadow-lg transform hover:scale-105 transition-bounce flex items-center gap-2"
-      >
-        <Download className="w-4 h-4" />
-        Exportar JSON
-      </Button>
-      
-      <Button
-        onClick={handleImportData}
-        className="bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white font-bold shadow-lg transform hover:scale-105 transition-bounce flex items-center gap-2"
-      >
-        <Upload className="w-4 h-4" />
-        Importar
-      </Button>
-      
-      <Button
-        onClick={handleClearSelection}
-        className="bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-bold shadow-lg transform hover:scale-105 transition-bounce flex items-center gap-2"
-      >
-        <Trash2 className="w-4 h-4" />
-        Limpiar
-      </Button>
-    </div>
+    <>
+      <div className="flex flex-wrap gap-3 justify-center pt-6 border-t border-white/20">
+        <Button
+          onClick={handlePreviewPDF}
+          className="bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white font-bold shadow-lg transform hover:scale-105 transition-bounce flex items-center gap-2"
+        >
+          <Eye className="w-4 h-4" />
+          Vista Previa PDF
+        </Button>
+        
+        <Button
+          onClick={handleExportData}
+          className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-bold shadow-lg transform hover:scale-105 transition-bounce flex items-center gap-2"
+        >
+          <Download className="w-4 h-4" />
+          Exportar JSON
+        </Button>
+        
+        <Button
+          onClick={handleImportData}
+          className="bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white font-bold shadow-lg transform hover:scale-105 transition-bounce flex items-center gap-2"
+        >
+          <Upload className="w-4 h-4" />
+          Importar
+        </Button>
+        
+        <Button
+          onClick={handleClearSelection}
+          className="bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-bold shadow-lg transform hover:scale-105 transition-bounce flex items-center gap-2"
+        >
+          <Trash2 className="w-4 h-4" />
+          Limpiar
+        </Button>
+
+        <input
+          type="file"
+          ref={fileInputRef}
+          accept=".json"
+          style={{ display: 'none' }}
+          onChange={handleFileImport}
+        />
+      </div>
+
+      <PDFPreview
+        isVisible={showPDFPreview}
+        onClose={() => setShowPDFPreview(false)}
+        clientName={clientName}
+        projectType={projectType}
+        selectedModules={selectedModules}
+        totalAmount={totalAmount}
+      />
+    </>
   );
 };

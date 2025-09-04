@@ -122,18 +122,38 @@ export default function QuotationApp() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-hero font-inter">
-      {/* Hero Section */}
-      <QuotationHero />
+    <div className="bg-gradient-to-br from-gray-900 via-gray-800 to-primary-900 min-h-screen font-inter">
+      {/* Header */}
+      <div className="relative overflow-hidden bg-gradient-to-r from-primary-600 via-primary-500 to-primary-400">
+        <div className="absolute inset-0 bg-black opacity-20"></div>
+        <div className="relative container mx-auto px-6 py-16 text-center">
+          <div className="animate-float mb-8">
+            <div className="inline-block p-4 bg-white bg-opacity-20 rounded-full backdrop-blur-sm">
+              <i className="fas fa-code text-4xl text-white"></i>
+            </div>
+          </div>
+          <h1 className="text-5xl md:text-6xl font-black text-white mb-4 tracking-tight">
+            WebNova<span className="text-primary-200">Lab</span>
+          </h1>
+          <p className="text-xl text-primary-100 max-w-2xl mx-auto leading-relaxed">
+            Cotizador Profesional de Proyectos Web
+          </p>
+          <div className="mt-8 flex justify-center space-x-4">
+            <div className="h-2 w-2 bg-primary-200 rounded-full animate-pulse"></div>
+            <div className="h-2 w-2 bg-primary-300 rounded-full animate-pulse" style={{animationDelay: '0.5s'}}></div>
+            <div className="h-2 w-2 bg-primary-400 rounded-full animate-pulse" style={{animationDelay: '1s'}}></div>
+          </div>
+        </div>
+      </div>
 
       <div className="container mx-auto p-6 max-w-7xl">
-        {/* Client Info and AI Panel */}
+        {/* Client Info and Enhanced AI Panel */}
         <div className="mb-8 animate-slide-in-up">
           <Card className="bg-white/10 backdrop-blur-md rounded-2xl border border-white/20 shadow-elegant">
             <CardContent className="p-6">
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 {/* Client Info */}
-                <div className="lg:col-span-2">
+                <div>
                   <ClientForm
                     clientName={clientName}
                     projectType={projectType}
@@ -142,7 +162,7 @@ export default function QuotationApp() {
                   />
                 </div>
                 
-                {/* AI Assistant */}
+                {/* Enhanced AI Assistant */}
                 <AIAssistant
                   clientName={clientName}
                   projectType={projectType}
@@ -151,9 +171,15 @@ export default function QuotationApp() {
                   onShowSuggestions={handleShowAISuggestions}
                 />
               </div>
-              
-              {/* Control Buttons */}
-              <div className="flex flex-wrap gap-3 justify-center">
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Control Buttons */}
+        <div className="mb-8 animate-slide-in-up">
+          <Card className="bg-white/10 backdrop-blur-md rounded-2xl border border-white/20 shadow-elegant">
+            <CardContent className="p-6">
+              <div className="flex flex-wrap gap-4 justify-center">
                 <ModuleManager
                   onAddModule={handleAddModule}
                   onEditModule={handleEditModule}
@@ -180,11 +206,12 @@ export default function QuotationApp() {
             content={aiSuggestions}
             isVisible={showAISuggestions}
             onClose={() => setShowAISuggestions(false)}
+            onEdit={setAISuggestions}
           />
         </div>
 
         {/* Modules Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-12">
           {modules.map((module) => (
             <ModuleCard
               key={module.id}

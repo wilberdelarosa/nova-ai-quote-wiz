@@ -7,7 +7,8 @@ export class PDFService {
     clientName: string,
     projectType: string,
     selectedModules: Module[],
-    totalAmount: number
+    totalAmount: number,
+    isDarkTheme: boolean = false
   ): Promise<void> {
     if (!clientName.trim()) {
       throw new Error('Por favor, ingresa el nombre del cliente antes de generar el PDF.');
@@ -17,7 +18,7 @@ export class PDFService {
       throw new Error('Por favor, selecciona al menos un módulo para generar la cotización.');
     }
 
-    const pdfContent = this.createPDFContent(clientName, projectType, selectedModules, totalAmount);
+    const pdfContent = this.createPDFContent(clientName, projectType, selectedModules, totalAmount, isDarkTheme);
     
     // Create temporary container for rendering
     const container = document.createElement('div');
@@ -25,14 +26,14 @@ export class PDFService {
     container.style.position = 'absolute';
     container.style.left = '-9999px';
     container.style.width = '800px';
-    container.style.backgroundColor = 'white';
+    container.style.backgroundColor = isDarkTheme ? '#1f2937' : 'white';
     document.body.appendChild(container);
 
     try {
       const canvas = await html2canvas(container, {
         scale: 2,
         useCORS: true,
-        backgroundColor: '#ffffff',
+        backgroundColor: isDarkTheme ? '#1f2937' : '#ffffff',
         width: 800,
         allowTaint: false,
         logging: false
@@ -67,11 +68,12 @@ export class PDFService {
     }
   }
 
-  private createPDFContent(
+  createPDFContent(
     clientName: string,
     projectType: string,
     selectedModules: Module[],
-    totalAmount: number
+    totalAmount: number,
+    isDarkTheme: boolean = false
   ): string {
     const currentDate = new Date().toLocaleDateString('es-DO', { 
       year: 'numeric', 
@@ -79,20 +81,25 @@ export class PDFService {
       day: 'numeric' 
     });
 
+    const bgColor = isDarkTheme ? '#1f2937' : 'white';
+    const textColor = isDarkTheme ? '#f9fafb' : '#1f2937';
+    const secondaryBg = isDarkTheme ? '#374151' : '#f8fafc';
+    const borderColor = isDarkTheme ? '#4b5563' : '#5EEAD4';
+
     return `
-      <div style="font-family: 'Inter', Arial, sans-serif; margin: 0; padding: 40px; background: white; color: #1f2937; line-height: 1.6;">
+      <div style="font-family: 'Inter', Arial, sans-serif; margin: 0; padding: 40px; background: ${bgColor}; color: ${textColor}; line-height: 1.6;">
         <!-- Header -->
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; align-items: center; padding: 40px 0; border-bottom: 3px solid #5EEAD4; margin-bottom: 40px;">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; align-items: center; padding: 40px 0; border-bottom: 3px solid ${borderColor}; margin-bottom: 40px;">
           <div>
             <div style="display: inline-block; padding: 15px; background: linear-gradient(135deg, #14b8a6, #0d9488); border-radius: 50%; color: white; font-size: 32px; text-align: center; width: 60px; height: 60px; margin-bottom: 20px;">
               ⚡
             </div>
-            <h1 style="font-size: 36px; font-weight: 900; margin: 0; color: #1f2937;">
+            <h1 style="font-size: 36px; font-weight: 900; margin: 0; color: ${textColor};">
               WebNova<span style="color: #5EEAD4;">Lab</span>
             </h1>
-            <p style="color: #6b7280; margin: 0;">Soluciones Web y Marketing Digital</p>
+            <p style="color: ${isDarkTheme ? '#9ca3af' : '#6b7280'}; margin: 0;">Soluciones Web y Marketing Digital</p>
           </div>
-          <div style="text-align: right; color: #1f2937;">
+          <div style="text-align: right; color: ${textColor};">
             <h2 style="font-size: 28px; margin: 0; color: #5EEAD4;">Cotización de Proyecto Web</h2>
             <p style="margin: 5px 0;">Fecha: ${currentDate}</p>
             <p style="margin: 0;">Válida por 30 días</p>
@@ -100,60 +107,52 @@ export class PDFService {
         </div>
 
         <!-- Client Information -->
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-bottom: 40px; padding: 30px; background: #f8fafc; border-radius: 12px; border-left: 4px solid #5EEAD4;">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-bottom: 40px; padding: 30px; background: ${secondaryBg}; border-radius: 12px; border-left: 4px solid ${borderColor};">
           <div>
-            <div style="font-size: 12px; font-weight: 600; color: #6b7280; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 5px;">
+            <div style="font-size: 12px; font-weight: 600; color: ${isDarkTheme ? '#9ca3af' : '#6b7280'}; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 5px;">
               Preparado Para
             </div>
-            <p style="font-size: 18px; font-weight: 700; margin: 0;">${clientName}</p>
-            <p style="color: #6b7280; margin: 0;">${projectType || 'Proyecto Web Personalizado'}</p>
+            <p style="font-size: 18px; font-weight: 700; margin: 0; color: ${textColor};">${clientName}</p>
+            <p style="color: ${isDarkTheme ? '#9ca3af' : '#6b7280'}; margin: 0;">${projectType || 'Proyecto Web Personalizado'}</p>
           </div>
           <div style="text-align: right;">
-            <div style="font-size: 12px; font-weight: 600; color: #6b7280; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 5px;">
+            <div style="font-size: 12px; font-weight: 600; color: ${isDarkTheme ? '#9ca3af' : '#6b7280'}; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 5px;">
               Preparado Por
             </div>
-            <p style="font-size: 18px; font-weight: 700; margin: 0;">Web Nova Lab</p>
-            <p style="color: #6b7280; margin: 0;">Soluciones Web y Marketing</p>
+            <p style="font-size: 18px; font-weight: 700; margin: 0; color: ${textColor};">Web Nova Lab</p>
+            <p style="color: ${isDarkTheme ? '#9ca3af' : '#6b7280'}; margin: 0;">Soluciones Web y Marketing</p>
             <p style="color: #5EEAD4; margin: 0;">info.webnovalab@gmail.com</p>
           </div>
         </div>
 
-        <!-- Project Title -->
-        <div style="margin-bottom: 30px;">
-          <h2 style="font-size: 24px; color: #1f2937; margin-bottom: 20px; border-bottom: 2px solid #e5e7eb; padding-bottom: 10px; font-weight: 700;">
-            💰 Cotización Final – ${projectType || 'Proyecto Web'}
-          </h2>
-          <p style="color: #6b7280;">Módulos seleccionados y servicios incluidos para el desarrollo completo del proyecto.</p>
-        </div>
-
         <!-- Modules Table -->
-        <h3 style="font-size: 24px; color: #1f2937; margin-bottom: 20px; border-bottom: 2px solid #e5e7eb; padding-bottom: 10px; font-weight: 700;">
+        <h3 style="font-size: 24px; color: ${textColor}; margin-bottom: 20px; border-bottom: 2px solid ${isDarkTheme ? '#4b5563' : '#e5e7eb'}; padding-bottom: 10px; font-weight: 700;">
           🧾 Detalle por Módulos
         </h3>
         <table style="width: 100%; border-collapse: collapse; margin-bottom: 30px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); border-radius: 8px; overflow: hidden;">
           <thead>
-            <tr style="background: #f9fafb;">
-              <th style="padding: 16px; text-align: left; font-weight: 600; color: #374151; font-size: 14px; text-transform: uppercase; letter-spacing: 0.05em;">
+            <tr style="background: ${isDarkTheme ? '#374151' : '#f9fafb'};">
+              <th style="padding: 16px; text-align: left; font-weight: 600; color: ${isDarkTheme ? '#f3f4f6' : '#374151'}; font-size: 14px; text-transform: uppercase; letter-spacing: 0.05em;">
                 Módulo / Entregable
               </th>
-              <th style="padding: 16px; text-align: left; font-weight: 600; color: #374151; font-size: 14px; text-transform: uppercase; letter-spacing: 0.05em;">
+              <th style="padding: 16px; text-align: left; font-weight: 600; color: ${isDarkTheme ? '#f3f4f6' : '#374151'}; font-size: 14px; text-transform: uppercase; letter-spacing: 0.05em;">
                 Descripción
               </th>
-              <th style="padding: 16px; text-align: right; font-weight: 600; color: #374151; font-size: 14px; text-transform: uppercase; letter-spacing: 0.05em;">
+              <th style="padding: 16px; text-align: right; font-weight: 600; color: ${isDarkTheme ? '#f3f4f6' : '#374151'}; font-size: 14px; text-transform: uppercase; letter-spacing: 0.05em;">
                 Valor (RD$)
               </th>
             </tr>
           </thead>
           <tbody>
             ${selectedModules.map((module, index) => `
-              <tr style="${index % 2 === 1 ? 'background: #f9fafb;' : ''}">
-                <td style="padding: 16px; ${index === selectedModules.length - 1 ? '' : 'border-bottom: 1px solid #e5e7eb;'} font-weight: 600;">
+              <tr style="${index % 2 === 1 ? `background: ${isDarkTheme ? '#374151' : '#f9fafb'};` : `background: ${bgColor};`}">
+                <td style="padding: 16px; ${index === selectedModules.length - 1 ? '' : `border-bottom: 1px solid ${isDarkTheme ? '#4b5563' : '#e5e7eb'};`} font-weight: 600; color: ${textColor};">
                   ${module.name}
                 </td>
-                <td style="padding: 16px; ${index === selectedModules.length - 1 ? '' : 'border-bottom: 1px solid #e5e7eb;'}">
+                <td style="padding: 16px; ${index === selectedModules.length - 1 ? '' : `border-bottom: 1px solid ${isDarkTheme ? '#4b5563' : '#e5e7eb'};`} color: ${textColor};">
                   ${module.description}
                 </td>
-                <td style="padding: 16px; ${index === selectedModules.length - 1 ? '' : 'border-bottom: 1px solid #e5e7eb;'} text-align: right; font-family: monospace; font-weight: 600; color: #059669;">
+                <td style="padding: 16px; ${index === selectedModules.length - 1 ? '' : `border-bottom: 1px solid ${isDarkTheme ? '#4b5563' : '#e5e7eb'};`} text-align: right; font-family: monospace; font-weight: 600; color: #059669;">
                   ${module.price.toLocaleString()}
                 </td>
               </tr>
@@ -173,10 +172,10 @@ export class PDFService {
         <!-- Payment Schedule -->
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin: 30px 0;">
           <div>
-            <h3 style="font-size: 24px; color: #1f2937; margin-bottom: 20px; border-bottom: 2px solid #e5e7eb; padding-bottom: 10px; font-weight: 700;">
+            <h3 style="font-size: 24px; color: ${textColor}; margin-bottom: 20px; border-bottom: 2px solid ${isDarkTheme ? '#4b5563' : '#e5e7eb'}; padding-bottom: 10px; font-weight: 700;">
               📅 Cronograma de Entregas
             </h3>
-            <ul style="padding-left: 20px; color: #6b7280;">
+            <ul style="padding-left: 20px; color: ${isDarkTheme ? '#9ca3af' : '#6b7280'};">
               <li style="margin-bottom: 8px;"><strong style="color: #5EEAD4;">Semana 1-2:</strong> Diseño y desarrollo inicial</li>
               <li style="margin-bottom: 8px;"><strong style="color: #5EEAD4;">Semana 3-4:</strong> Funcionalidades core y backend</li>
               <li style="margin-bottom: 8px;"><strong style="color: #5EEAD4;">Semana 5-6:</strong> Integraciones y testing</li>
@@ -184,17 +183,17 @@ export class PDFService {
             </ul>
           </div>
           <div>
-            <h3 style="font-size: 24px; color: #1f2937; margin-bottom: 20px; border-bottom: 2px solid #e5e7eb; padding-bottom: 10px; font-weight: 700;">
+            <h3 style="font-size: 24px; color: ${textColor}; margin-bottom: 20px; border-bottom: 2px solid ${isDarkTheme ? '#4b5563' : '#e5e7eb'}; padding-bottom: 10px; font-weight: 700;">
               💳 Forma de Pago
             </h3>
-            <div style="padding: 20px; background: #f1f5f9; border-radius: 8px; text-align: center; margin-bottom: 15px;">
-              <p style="font-weight: 600; margin-bottom: 10px;">50% al iniciar</p>
+            <div style="padding: 20px; background: ${isDarkTheme ? '#374151' : '#f1f5f9'}; border-radius: 8px; text-align: center; margin-bottom: 15px;">
+              <p style="font-weight: 600; margin-bottom: 10px; color: ${textColor};">50% al iniciar</p>
               <p style="font-size: 24px; font-weight: 900; color: #5EEAD4; margin: 0;">
                 RD$ ${Math.round(totalAmount / 2).toLocaleString()}
               </p>
             </div>
-            <div style="padding: 20px; background: #f1f5f9; border-radius: 8px; text-align: center;">
-              <p style="font-weight: 600; margin-bottom: 10px;">50% al entregar</p>
+            <div style="padding: 20px; background: ${isDarkTheme ? '#374151' : '#f1f5f9'}; border-radius: 8px; text-align: center;">
+              <p style="font-weight: 600; margin-bottom: 10px; color: ${textColor};">50% al entregar</p>
               <p style="font-size: 24px; font-weight: 900; color: #5EEAD4; margin: 0;">
                 RD$ ${Math.round(totalAmount / 2).toLocaleString()}
               </p>
@@ -203,9 +202,9 @@ export class PDFService {
         </div>
 
         <!-- Terms and Conditions -->
-        <div style="margin-top: 40px; padding: 20px; background: #f8fafc; border-radius: 8px; border-left: 4px solid #5EEAD4;">
-          <h4 style="color: #1f2937; margin-bottom: 15px;">📋 Términos y Condiciones</h4>
-          <ul style="color: #6b7280; font-size: 14px; line-height: 1.6;">
+        <div style="margin-top: 40px; padding: 20px; background: ${secondaryBg}; border-radius: 8px; border-left: 4px solid ${borderColor};">
+          <h4 style="color: ${textColor}; margin-bottom: 15px;">📋 Términos y Condiciones</h4>
+          <ul style="color: ${isDarkTheme ? '#9ca3af' : '#6b7280'}; font-size: 14px; line-height: 1.6;">
             <li style="margin-bottom: 8px;">El proyecto incluye 2 rondas de revisiones sin costo adicional</li>
             <li style="margin-bottom: 8px;">Cambios mayores fuera del alcance original se cotizarán por separado</li>
             <li style="margin-bottom: 8px;">El cliente debe proporcionar contenido y materiales dentro de 5 días hábiles</li>
@@ -215,7 +214,7 @@ export class PDFService {
         </div>
 
         <!-- Footer -->
-        <div style="margin-top: 40px; padding-top: 20px; border-top: 2px solid #e5e7eb; text-align: center; color: #6b7280; font-size: 12px;">
+        <div style="margin-top: 40px; padding-top: 20px; border-top: 2px solid ${isDarkTheme ? '#4b5563' : '#e5e7eb'}; text-align: center; color: ${isDarkTheme ? '#9ca3af' : '#6b7280'}; font-size: 12px;">
           <p>Gracias por la oportunidad de cotizar para su proyecto. ¡Esperamos trabajar con ustedes!</p>
           <p style="margin-top: 15px;"><strong style="color: #5EEAD4; font-weight: 600;">Web Nova Lab</strong> - Transformamos ideas en soluciones digitales exitosas</p>
           <p style="margin-top: 10px;">📧 info.webnovalab@gmail.com | 📱 WhatsApp: +1 (809) 123-4567</p>
