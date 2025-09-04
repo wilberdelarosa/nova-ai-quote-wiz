@@ -2,41 +2,68 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
+/* WebNovaLab Design System - Professional Quotation App */
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* WebNova Brand Colors */
+    --webnova-50: 240 253 250;
+    --webnova-100: 204 251 241;
+    --webnova-200: 153 246 228;
+    --webnova-300: 94 234 212;
+    --webnova-400: 45 212 191;
+    --webnova-500: 20 184 166;
+    --webnova-600: 13 148 136;
+    --webnova-700: 15 118 110;
+    --webnova-800: 17 94 89;
+    --webnova-900: 19 78 74;
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    /* Base Theme */
+    --background: 222 84% 5%;
+    --foreground: 210 40% 98%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --card: 222 84% 5%;
+    --card-foreground: 210 40% 98%;
 
-    --primary: 222.2 47.4% 11.2%;
+    --popover: 222 84% 5%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 20 184 166;
     --primary-foreground: 210 40% 98%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 240 3.7% 15.9%;
+    --secondary-foreground: 210 40% 98%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 240 5% 64.9%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 240 3.7% 15.9%;
+    --accent-foreground: 210 40% 98%;
 
-    --destructive: 0 84.2% 60.2%;
+    --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 20 184 166;
 
-    --radius: 0.5rem;
+    --radius: 0.75rem;
+
+    /* Professional Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(var(--webnova-500)), hsl(var(--webnova-600)));
+    --gradient-secondary: linear-gradient(135deg, hsl(var(--webnova-600)), hsl(var(--webnova-700)));
+    --gradient-hero: linear-gradient(135deg, hsl(222 84% 5%) 0%, hsl(240 3.7% 15.9%) 50%, hsl(var(--webnova-900)) 100%);
+    --gradient-card: linear-gradient(145deg, hsl(240 3.7% 15.9% / 0.8), hsl(240 3.7% 20% / 0.9));
+    --gradient-ai: linear-gradient(-45deg, hsl(265 85% 62%), hsl(338 76% 65%), hsl(205 79% 60%), hsl(var(--webnova-400)));
+
+    /* Shadows */
+    --shadow-elegant: 0 25px 50px -12px hsl(0 0% 0% / 0.25);
+    --shadow-glow: 0 0 50px hsl(var(--webnova-500) / 0.3);
+    --shadow-card: 0 4px 6px -1px hsl(0 0% 0% / 0.1), 0 2px 4px -1px hsl(0 0% 0% / 0.06);
+
+    /* Animations */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: all 0.2s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 
     --sidebar-background: 0 0% 98%;
 
@@ -91,6 +118,60 @@ All colors MUST be HSL.
     --sidebar-accent-foreground: 240 4.8% 95.9%;
     --sidebar-border: 240 3.7% 15.9%;
     --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+/* Additional utilities for WebNovaLab */
+@layer utilities {
+  .text-wrap-balance {
+    text-wrap: balance;
+  }
+  
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  
+  .font-inter {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  .ai-thinking {
+    background: linear-gradient(-45deg, hsl(265 85% 62%), hsl(338 76% 65%), hsl(205 79% 60%), hsl(var(--webnova-400)));
+    background-size: 400% 400%;
+    animation: ai-thinking 2s ease infinite;
+  }
+  
+  .prose h1,
+  .prose h2,
+  .prose h3,
+  .prose h4 {
+    color: inherit;
+  }
+  
+  .prose p {
+    color: inherit;
+    margin-bottom: 1rem;
+  }
+  
+  .prose ul,
+  .prose ol {
+    color: inherit;
+    margin-bottom: 1rem;
+  }
+  
+  .prose li {
+    color: inherit;
+    margin-bottom: 0.5rem;
+  }
+  
+  .prose strong {
+    color: inherit;
+    font-weight: 700;
   }
 }
 
