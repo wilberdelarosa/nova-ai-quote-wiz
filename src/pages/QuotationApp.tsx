@@ -122,9 +122,9 @@ export default function QuotationApp() {
   };
 
   return (
-    <div className="bg-gradient-to-br from-gray-900 via-gray-800 to-primary-900 min-h-screen font-inter">
+    <div className="bg-gradient-to-br from-gray-900 via-gray-800 to-webnova-900 min-h-screen font-inter">
       {/* Header */}
-      <div className="relative overflow-hidden bg-gradient-to-r from-primary-600 via-primary-500 to-primary-400">
+      <div className="relative overflow-hidden bg-gradient-to-r from-webnova-600 via-webnova-500 to-webnova-400">
         <div className="absolute inset-0 bg-black opacity-20"></div>
         <div className="relative container mx-auto px-6 py-16 text-center">
           <div className="animate-float mb-8">
@@ -133,15 +133,15 @@ export default function QuotationApp() {
             </div>
           </div>
           <h1 className="text-5xl md:text-6xl font-black text-white mb-4 tracking-tight">
-            WebNova<span className="text-primary-200">Lab</span>
+            WebNova<span className="text-webnova-200">Lab</span>
           </h1>
-          <p className="text-xl text-primary-100 max-w-2xl mx-auto leading-relaxed">
+          <p className="text-xl text-webnova-100 max-w-2xl mx-auto leading-relaxed">
             Cotizador Profesional de Proyectos Web
           </p>
           <div className="mt-8 flex justify-center space-x-4">
-            <div className="h-2 w-2 bg-primary-200 rounded-full animate-pulse"></div>
-            <div className="h-2 w-2 bg-primary-300 rounded-full animate-pulse" style={{animationDelay: '0.5s'}}></div>
-            <div className="h-2 w-2 bg-primary-400 rounded-full animate-pulse" style={{animationDelay: '1s'}}></div>
+            <div className="h-2 w-2 bg-webnova-200 rounded-full animate-pulse"></div>
+            <div className="h-2 w-2 bg-webnova-300 rounded-full animate-pulse" style={{animationDelay: '0.5s'}}></div>
+            <div className="h-2 w-2 bg-webnova-400 rounded-full animate-pulse" style={{animationDelay: '1s'}}></div>
           </div>
         </div>
       </div>

@@ -110,7 +110,7 @@ export const PDFPreview = ({
             <Button
               onClick={handleGeneratePDF}
               disabled={isGenerating}
-              className="bg-gradient-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-700 text-white font-bold"
+              className="bg-gradient-to-r from-webnova-500 to-webnova-600 hover:from-webnova-600 hover:to-webnova-700 text-white font-bold"
             >
               {isGenerating ? (
                 <div className="animate-spin rounded-full w-4 h-4 border-2 border-white border-t-transparent mr-2" />
