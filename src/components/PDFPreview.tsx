@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useToast } from "@/hooks/use-toast";
 import { createPortal } from "react-dom";
 import { X, Download, Palette, FileText, Edit3, Save } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -32,6 +33,7 @@ export const PDFPreview = ({
   const [isDarkTheme, setIsDarkTheme] = useState(false);
   const [isGenerating, setIsGenerating] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
+  const { toast } = useToast();
   const [editableContent, setEditableContent] = useState({
     clientName,
     projectType,
@@ -68,8 +70,18 @@ export const PDFPreview = ({
           terms: editableContent.terms
         }
       );
+      toast({
+        title: "PDF generado",
+        description: "La cotización se ha descargado correctamente.",
+      });
+      onClose();
     } catch (error) {
       console.error('Error generating PDF:', error);
+      toast({
+        title: "Error al generar PDF",
+        description: "No se pudo descargar el PDF.",
+        variant: "destructive",
+      });
     } finally {
       setIsGenerating(false);
     }
