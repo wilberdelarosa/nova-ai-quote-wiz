@@ -54,6 +54,47 @@ export const ControlButtons = ({
     setShowPDFPreview(true);
   };
 
+  const handleDownloadPDF = async () => {
+    if (!clientName.trim()) {
+      toast({
+        title: "Cliente requerido",
+        description: "Por favor, ingresa el nombre del cliente antes de generar el PDF.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (selectedModules.length === 0) {
+      toast({
+        title: "Sin módulos seleccionados",
+        description: "Por favor, selecciona al menos un módulo para generar la cotización.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    try {
+      await pdfService.generateProfessionalPDF(
+        clientName,
+        projectType,
+        selectedModules,
+        totalAmount,
+        usdRate
+      );
+      toast({
+        title: "PDF generado",
+        description: "La cotización se ha descargado correctamente.",
+      });
+    } catch (error) {
+      console.error('Error generating PDF:', error);
+      toast({
+        title: "Error al generar PDF",
+        description: "No se pudo descargar el PDF.",
+        variant: "destructive",
+      });
+    }
+  };
+
   const handleExportData = () => {
     const data: QuotationData = {
       client: clientName,
@@ -135,7 +176,15 @@ export const ControlButtons = ({
           <Eye className="w-4 h-4" />
           Vista Previa PDF
         </Button>
-        
+
+        <Button
+          onClick={handleDownloadPDF}
+          className="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-bold shadow-lg transform hover:scale-105 transition-bounce flex items-center gap-2"
+        >
+          <FileText className="w-4 h-4" />
+          Descargar PDF
+        </Button>
+
         <Button
           onClick={handleExportData}
           className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-bold shadow-lg transform hover:scale-105 transition-bounce flex items-center gap-2"
