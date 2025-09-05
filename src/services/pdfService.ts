@@ -102,14 +102,22 @@ export class PDFService {
 
     const companyEmail = customContent?.companyEmail || "info.webnovalab@gmail.com";
     const companyPhone = customContent?.companyPhone || "+1 (809) 123-4567";
-    const finalNotes = customContent?.notes || "Gracias por la oportunidad de cotizar para su proyecto. ¡Esperamos trabajar con ustedes!";
-    const terms = customContent?.terms || [
+
+    // Preserve user line breaks by converting newlines to <br> tags
+    const formatMultilineText = (text: string) =>
+      text.replace(/\n/g, '<br/>');
+
+    const finalNotes = customContent?.notes
+      ? formatMultilineText(customContent.notes)
+      : "Gracias por la oportunidad de cotizar para su proyecto. ¡Esperamos trabajar con ustedes!";
+
+    const terms = (customContent?.terms || [
       "El proyecto incluye 2 rondas de revisiones sin costo adicional",
       "Cambios mayores fuera del alcance original se cotizarán por separado",
       "El cliente debe proporcionar contenido y materiales dentro de 5 días hábiles",
       "Garantía de 3 meses en funcionalidades desarrolladas",
       "Soporte técnico gratuito por 30 días post-entrega"
-    ];
+    ]).map(term => formatMultilineText(term));
 
     return `
       <div style="font-family: 'Inter', Arial, sans-serif; margin: 0; padding: 40px; background: ${bgColor}; color: ${textColor}; line-height: 1.6;">
