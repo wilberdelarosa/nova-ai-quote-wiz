@@ -147,14 +147,14 @@ export class PDFService {
           </thead>
           <tbody>
             ${selectedModules.map((module, index) => `
-              <tr style="${index % 2 === 1 ? `background: ${isDarkTheme ? '#374151' : '#f9fafb'};` : `background: ${bgColor};`}">
-                <td style="padding: 16px; ${index === selectedModules.length - 1 ? '' : `border-bottom: 1px solid ${isDarkTheme ? '#4b5563' : '#e5e7eb'};`} font-weight: 600; color: ${textColor};">
+              <tr style="${index % 2 === 1 ? `background: ${isDarkTheme ? '#374151' : '#f9fafb'};` : `background: ${bgColor};`} page-break-inside: avoid;">
+                <td style="padding: 12px; vertical-align: top; ${index === selectedModules.length - 1 ? '' : `border-bottom: 1px solid ${isDarkTheme ? '#4b5563' : '#e5e7eb'};`} font-weight: 600; color: ${textColor}; word-break: break-word;">
                   ${module.name}
                 </td>
-                <td style="padding: 16px; ${index === selectedModules.length - 1 ? '' : `border-bottom: 1px solid ${isDarkTheme ? '#4b5563' : '#e5e7eb'};`} color: ${textColor};">
+                <td style="padding: 12px; vertical-align: top; ${index === selectedModules.length - 1 ? '' : `border-bottom: 1px solid ${isDarkTheme ? '#4b5563' : '#e5e7eb'};`} color: ${textColor}; word-break: break-word; max-width: 300px;">
                   ${module.description}
                 </td>
-                <td style="padding: 16px; ${index === selectedModules.length - 1 ? '' : `border-bottom: 1px solid ${isDarkTheme ? '#4b5563' : '#e5e7eb'};`} text-align: right; font-family: monospace; font-weight: 600; color: #059669;">
+                <td style="padding: 12px; vertical-align: top; ${index === selectedModules.length - 1 ? '' : `border-bottom: 1px solid ${isDarkTheme ? '#4b5563' : '#e5e7eb'};`} text-align: right; font-family: monospace; font-weight: 600; color: #059669; white-space: nowrap;">
                   ${module.price.toLocaleString()}
                 </td>
               </tr>

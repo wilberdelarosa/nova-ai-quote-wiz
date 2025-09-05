@@ -35,7 +35,7 @@ export const AIAssistant = ({
   const aiService = new AIService();
 
   const formatResponse = (response: string) => {
-    const raw = /<[^>]+>/.test(response) ? response : marked.parse(response);
+    const raw = /<[^>]+>/.test(response) ? response : marked.parse(response) as string;
     return DOMPurify.sanitize(raw);
   };
 

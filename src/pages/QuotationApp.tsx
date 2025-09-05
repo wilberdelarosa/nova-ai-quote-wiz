@@ -7,6 +7,7 @@ import { ModuleCard } from "@/components/ModuleCard";
 import { ProjectSummary } from "@/components/ProjectSummary";
 import { ControlButtons } from "@/components/ControlButtons";
 import { AISuggestions } from "@/components/AISuggestions";
+import { ModuleCreator } from "@/components/ModuleCreator";
 import { Card, CardContent } from "@/components/ui/card";
 import { Module, DEFAULT_MODULES, QuotationData } from "@/types/quotation";
 import { fetchUsdToDopRate } from "@/services/exchangeRate";
@@ -21,6 +22,8 @@ export default function QuotationApp() {
   const [showAISuggestions, setShowAISuggestions] = useState(false);
   const [nextId, setNextId] = useState(15);
   const [usdRate, setUsdRate] = useState(0);
+  const [showModuleCreator, setShowModuleCreator] = useState(false);
+  const [suggestedModule, setSuggestedModule] = useState<{name: string; price: number; description: string} | null>(null);
 
   // Computed values
   const selectedModules = useMemo(() => 
@@ -112,6 +115,21 @@ export default function QuotationApp() {
   };
 
   const handleShowAISuggestions = (content: string) => {
+    // Extract suggested modules from AI content
+    const moduleRegex = /<div class="bg-green-50[^>]*>[\s\S]*?<strong>Nombre:<\/strong>\s*([^<]+)[\s\S]*?<strong>Precio:<\/strong>\s*RD\$(\d+)[\s\S]*?<strong>Descripción:<\/strong>\s*([^<]+)[\s\S]*?<\/div>/g;
+    let match;
+    
+    while ((match = moduleRegex.exec(content)) !== null) {
+      const [, name, price, description] = match;
+      setSuggestedModule({
+        name: name.trim(),
+        price: parseInt(price),
+        description: description.trim()
+      });
+      setShowModuleCreator(true);
+      break; // Only handle the first suggested module
+    }
+    
     setAISuggestions(content);
     setShowAISuggestions(true);
     // Scroll to suggestions
@@ -121,6 +139,15 @@ export default function QuotationApp() {
         element.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
     }, 100);
+  };
+
+  const handleCreateModule = (moduleData: Omit<Module, 'id'>) => {
+    const newModule: Module = {
+      ...moduleData,
+      id: nextId
+    };
+    setModules(prev => [...prev, newModule]);
+    setNextId(prev => prev + 1);
   };
 
   const handleImportData = (data: QuotationData) => {
@@ -245,6 +272,17 @@ export default function QuotationApp() {
           totalAmount={totalAmount}
           usdRate={usdRate}
           onRemoveModule={handleToggleModule}
+        />
+
+        {/* Module Creator */}
+        <ModuleCreator
+          isOpen={showModuleCreator}
+          onClose={() => {
+            setShowModuleCreator(false);
+            setSuggestedModule(null);
+          }}
+          onCreateModule={handleCreateModule}
+          suggestedModule={suggestedModule}
         />
       </div>
     </div>

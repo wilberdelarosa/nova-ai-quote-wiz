@@ -26,8 +26,8 @@ export const AISuggestions = ({ content, isVisible, onClose, onEdit }: AISuggest
 
   const handleSaveEdit = () => {
     if (onEdit) {
-      const html = DOMPurify.sanitize(marked.parse(editedContent));
-      onEdit(`<div class="text-white prose prose-invert max-w-none">${html}</div>`);
+      const html = DOMPurify.sanitize(marked.parse(editedContent) as string);
+      onEdit(`<div class="text-gray-800 prose max-w-none">${html}</div>`);
     }
     setIsEditing(false);
   };
@@ -37,13 +37,16 @@ export const AISuggestions = ({ content, isVisible, onClose, onEdit }: AISuggest
     setEditedContent("");
   };
 
+  // Process content to remove markdown artifacts and improve formatting
+  const processedContent = content.replace(/\*\*/g, '').replace(/#{1,6}\s/g, '').replace(/[-*]\s/g, '');
+
   return (
-    <Card className="bg-gradient-to-r from-purple-600 via-blue-600 to-indigo-600 rounded-2xl border-white/20 shadow-elegant backdrop-blur-sm animate-slide-in-up">
+    <Card className="bg-white rounded-2xl border-gray-200 shadow-elegant backdrop-blur-sm animate-slide-in-up">
       <CardHeader>
-        <CardTitle className="text-2xl font-bold text-white flex items-center justify-between">
+        <CardTitle className="text-2xl font-bold text-gray-800 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <Lightbulb className="w-6 h-6" />
-            Sugerencias de IA
+            <Lightbulb className="w-6 h-6 text-blue-600" />
+            <span className="text-blue-600">Sugerencias de IA</span>
           </div>
           <div className="flex items-center gap-2">
             {!isEditing && (
@@ -51,7 +54,7 @@ export const AISuggestions = ({ content, isVisible, onClose, onEdit }: AISuggest
                 onClick={handleStartEdit}
                 variant="ghost"
                 size="sm"
-                className="text-white/70 hover:text-white hover:bg-white/10"
+                className="text-gray-600 hover:text-gray-800 hover:bg-gray-100"
               >
                 <Edit className="w-4 h-4" />
               </Button>
@@ -60,7 +63,7 @@ export const AISuggestions = ({ content, isVisible, onClose, onEdit }: AISuggest
               onClick={onClose}
               variant="ghost"
               size="sm"
-              className="text-white/70 hover:text-white hover:bg-white/10"
+              className="text-gray-600 hover:text-gray-800 hover:bg-gray-100"
             >
               <X className="w-5 h-5" />
             </Button>
@@ -88,7 +91,7 @@ export const AISuggestions = ({ content, isVisible, onClose, onEdit }: AISuggest
               <Button
                 onClick={handleCancelEdit}
                 variant="ghost"
-                className="text-white/70 hover:text-white hover:bg-white/10"
+                className="text-gray-600 hover:text-gray-800 hover:bg-gray-100"
                 size="sm"
               >
                 <RotateCcw className="w-4 h-4 mr-2" />
@@ -98,8 +101,8 @@ export const AISuggestions = ({ content, isVisible, onClose, onEdit }: AISuggest
           </div>
         ) : (
           <div 
-            className="text-white prose prose-invert max-w-none"
-            dangerouslySetInnerHTML={{ __html: content }}
+            className="text-gray-800 prose max-w-none bg-gray-50 rounded-lg p-4"
+            dangerouslySetInnerHTML={{ __html: processedContent }}
           />
         )}
       </CardContent>

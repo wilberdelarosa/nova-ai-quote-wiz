@@ -54,16 +54,27 @@ export class AIService {
     
     Proporciona un análisis completo en formato HTML con clases de Tailwind CSS que incluya:
     
-    1. **Análisis del Proyecto** - Evaluación de la propuesta actual
-    2. **Módulos Faltantes** - ¿Qué funcionalidades importantes podrían estar faltando?
-    3. **Optimizaciones de Precio** - Sugerencias para mejorar el valor
-    4. **Cronograma Sugerido** - Timeline realista de desarrollo
-    5. **Consideraciones Técnicas** - Aspectos técnicos importantes
-    6. **Recomendaciones Estratégicas** - Mejores prácticas para el éxito del proyecto
+    1. Análisis del Proyecto - Evaluación de la propuesta actual
+    2. Módulos Faltantes - ¿Qué funcionalidades importantes podrían estar faltando?
+    3. Optimizaciones de Precio - Sugerencias para mejorar el valor
+    4. Cronograma Sugerido - Timeline realista de desarrollo
+    5. Consideraciones Técnicas - Aspectos técnicos importantes
+    6. Recomendaciones Estratégicas - Mejores prácticas para el éxito del proyecto
     
-    Usa divs con clases como "bg-webnova-500/10 p-4 rounded-lg mb-4" para secciones.
-    Usa iconos de texto como ⚡ 🚀 💡 ⏰ 🛠️ 📈 para hacer más visual.
-    Sé específico y profesional, enfócate en valor empresarial.
+    IMPORTANTE: 
+    - NO uses markdown (**, ##, -, *). Solo HTML limpio.
+    - Usa divs con clases como "bg-blue-50 border-l-4 border-blue-400 p-4 rounded-r-lg mb-4".
+    - Usa texto oscuro "text-gray-800" en fondos claros para buen contraste.
+    - Usa iconos de texto como ⚡ 🚀 💡 ⏰ 🛠️ 📈 para hacer más visual.
+    - Sé específico y profesional, enfócate en valor empresarial.
+    
+    Si necesitas sugerir NUEVOS MÓDULOS específicos para agregar, úsalos en este formato:
+    <div class="bg-green-50 border border-green-200 p-4 rounded-lg">
+      <h4 class="text-green-800 font-bold">NUEVO MÓDULO SUGERIDO:</h4>
+      <p class="text-green-700"><strong>Nombre:</strong> [Nombre exacto]</p>
+      <p class="text-green-700"><strong>Precio:</strong> RD$[precio]</p>
+      <p class="text-green-700"><strong>Descripción:</strong> [descripción]</p>
+    </div>
     `;
 
     const messages: GroqMessage[] = [
@@ -89,16 +100,20 @@ export class AIService {
     
     Proporciona un análisis de optimización de precios en formato HTML con clases de Tailwind que incluya:
     
-    1. **Análisis Competitivo** - ¿Están los precios bien posicionados?
-    2. **Estrategias de Descuento** - Paquetes y ofertas recomendadas
-    3. **Módulos Premium** - Funcionalidades adicionales de alto valor
-    4. **Estructura de Pago** - Mejores opciones de financiamiento
-    5. **Valor Añadido** - Servicios extra sin costo adicional
-    6. **Propuesta de Valor** - Cómo justificar la inversión
+    1. Análisis Competitivo - ¿Están los precios bien posicionados?
+    2. Estrategias de Descuento - Paquetes y ofertas recomendadas
+    3. Módulos Premium - Funcionalidades adicionales de alto valor
+    4. Estructura de Pago - Mejores opciones de financiamiento
+    5. Valor Añadido - Servicios extra sin costo adicional
+    6. Propuesta de Valor - Cómo justificar la inversión
     
-    Conoces el mercado dominicano y latinoamericano.
-    Sé estratégico y enfócate en maximizar el valor percibido.
-    Usa iconos como 💰 📊 🎯 💳 🎁 🏆 para mejor presentación.
+    IMPORTANTE:
+    - NO uses markdown (**, ##, -, *). Solo HTML limpio.
+    - Usa texto oscuro "text-gray-800" en fondos claros.
+    - Usa divs con clases como "bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded-r-lg mb-4".
+    - Conoces el mercado dominicano y latinoamericano.
+    - Sé estratégico y enfócate en maximizar el valor percibido.
+    - Usa iconos como 💰 📊 🎯 💳 🎁 🏆 para mejor presentación.
     `;
 
     const messages: GroqMessage[] = [
@@ -189,15 +204,20 @@ export class AIService {
     
     Proporciona un timeline realista en formato HTML con clases de Tailwind que incluya:
     
-    1. **Fases del proyecto** (Diseño, Desarrollo, Testing, Despliegue)
-    2. **Duración estimada** de cada módulo
-    3. **Dependencias** entre módulos
-    4. **Entregables parciales** y milestones
-    5. **Timeline visual** usando barras de progreso o similar
-    6. **Consideraciones de riesgo** y buffers de tiempo
+    1. Fases del proyecto (Diseño, Desarrollo, Testing, Despliegue)
+    2. Duración estimada de cada módulo
+    3. Dependencias entre módulos
+    4. Entregables parciales y milestones
+    5. Timeline visual usando barras de progreso o similar
+    6. Consideraciones de riesgo y buffers de tiempo
     
-    Sé realista con los tiempos y considera la complejidad de cada módulo.
-    Usa iconos como 📅 ⏱️ 🔄 ✅ ⚠️ para hacer más visual.
+    IMPORTANTE:
+    - NO uses markdown (**, ##, -, *). Solo HTML limpio.
+    - Usa texto oscuro "text-gray-800" en fondos claros.
+    - Usa divs con clases como "bg-indigo-50 border-l-4 border-indigo-400 p-4 rounded-r-lg mb-4".
+    - Sé realista con los tiempos y considera la complejidad de cada módulo.
+    - Usa iconos como 📅 ⏱️ 🔄 ✅ ⚠️ para hacer más visual.
+    - Usa barras de progreso HTML como: <div class="bg-gray-200 rounded-full h-3"><div class="bg-blue-500 h-3 rounded-full" style="width: 60%"></div></div>
     `;
 
     const messages: GroqMessage[] = [
