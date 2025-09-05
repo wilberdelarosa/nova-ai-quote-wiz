@@ -8,9 +8,10 @@ import { ProjectSummary } from "@/components/ProjectSummary";
 import { ControlButtons } from "@/components/ControlButtons";
 import { AISuggestions } from "@/components/AISuggestions";
 import { ModuleCreator } from "@/components/ModuleCreator";
+import { FloatingAIAssistant } from "@/components/FloatingAIAssistant";
 import { Card, CardContent } from "@/components/ui/card";
 import { Module, DEFAULT_MODULES, QuotationData } from "@/types/quotation";
-import { fetchUsdToDopRate } from "@/services/exchangeRate";
+import { useUsdRate } from "@/hooks/useUsdRate";
 
 export default function QuotationApp() {
   const [clientName, setClientName] = useState("");
@@ -21,7 +22,7 @@ export default function QuotationApp() {
   const [aiSuggestions, setAISuggestions] = useState("");
   const [showAISuggestions, setShowAISuggestions] = useState(false);
   const [nextId, setNextId] = useState(15);
-  const [usdRate, setUsdRate] = useState(0);
+  const { usdRate, isLoading: isLoadingRate, lastUpdated, updateRate } = useUsdRate();
   const [showModuleCreator, setShowModuleCreator] = useState(false);
   const [suggestedModule, setSuggestedModule] = useState<{name: string; price: number; description: string} | null>(null);
 
@@ -53,10 +54,6 @@ export default function QuotationApp() {
     } catch (error) {
       console.error('Error loading saved data:', error);
     }
-
-    fetchUsdToDopRate().then(setUsdRate).catch(err => {
-      console.error('Error fetching USD rate:', err);
-    });
   }, []);
 
   useEffect(() => {
@@ -271,6 +268,9 @@ export default function QuotationApp() {
           selectedModules={selectedModules}
           totalAmount={totalAmount}
           usdRate={usdRate}
+          isLoadingRate={isLoadingRate}
+          lastUpdated={lastUpdated}
+          onUpdateRate={updateRate}
           onRemoveModule={handleToggleModule}
         />
 
@@ -283,6 +283,14 @@ export default function QuotationApp() {
           }}
           onCreateModule={handleCreateModule}
           suggestedModule={suggestedModule}
+        />
+
+        <FloatingAIAssistant
+          modules={modules}
+          selectedModules={selectedModules}
+          onAddModule={handleAddModule}
+          clientName={clientName}
+          projectType={projectType}
         />
       </div>
     </div>

@@ -206,5 +206,34 @@
 
   body {
     @apply bg-background text-foreground;
+    height: 100%;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  /* Prevent text selection issues on mobile */
+  * {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+  }
+
+  /* Re-enable text selection for input elements */
+  input, textarea, [contenteditable], p, span, h1, h2, h3, h4, h5, h6 {
+    -webkit-user-select: text;
+    -khtml-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
+    user-select: text;
+  }
+
+  /* Prevent zoom on input focus on mobile */
+  input, select, textarea {
+    font-size: 16px;
+  }
+
+  @media screen and (max-width: 768px) {
+    input, select, textarea {
+      font-size: 16px !important;
+    }
   }
 }

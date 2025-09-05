@@ -1,4 +1,4 @@
-import { TrendingUp, X } from "lucide-react";
+import { TrendingUp, X, RefreshCw, Clock } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Module } from "@/types/quotation";
@@ -7,14 +7,20 @@ interface ProjectSummaryProps {
   selectedModules: Module[];
   totalAmount: number;
   usdRate: number;
+  isLoadingRate?: boolean;
+  lastUpdated?: Date | null;
+  onUpdateRate?: () => void;
   onRemoveModule: (moduleId: number) => void;
 }
 
-export const ProjectSummary = ({
-  selectedModules,
-  totalAmount,
-  usdRate,
-  onRemoveModule
+export const ProjectSummary = ({ 
+  selectedModules, 
+  totalAmount, 
+  usdRate, 
+  isLoadingRate,
+  lastUpdated,
+  onUpdateRate,
+  onRemoveModule 
 }: ProjectSummaryProps) => {
   if (selectedModules.length === 0) {
     return (
@@ -39,6 +45,20 @@ export const ProjectSummary = ({
           <div className="text-center p-6 bg-gradient-primary rounded-2xl">
             <p className="text-sm text-webnova-100 mb-2">Total del Proyecto</p>
             <p className="text-4xl font-black text-white">RD$ 0</p>
+            <div className="flex items-center justify-center gap-2 text-sm text-primary-foreground/80 mt-2">
+              <span>≈ US$ 0</span>
+              {onUpdateRate && (
+                <Button
+                  onClick={onUpdateRate}
+                  disabled={isLoadingRate}
+                  variant="ghost"
+                  size="sm"
+                  className="h-6 w-6 p-0 text-primary-foreground/80 hover:text-primary-foreground hover:bg-primary-foreground/10"
+                >
+                  <RefreshCw className={`w-3 h-3 ${isLoadingRate ? 'animate-spin' : ''}`} />
+                </Button>
+              )}
+            </div>
           </div>
         </CardContent>
       </Card>
@@ -98,9 +118,26 @@ export const ProjectSummary = ({
           <p className="text-4xl font-black text-white">
             RD$ {totalAmount.toLocaleString()}
           </p>
-          <p className="text-sm text-webnova-100 mt-2">
-            ≈ US$ {usdRate ? Math.round(totalAmount / usdRate) : '...'}
-          </p>
+          <div className="flex items-center justify-center gap-2 text-sm text-primary-foreground/80 mt-2">
+            <span>≈ US$ {usdRate ? Math.round(totalAmount / usdRate) : '...'}</span>
+            {onUpdateRate && (
+              <Button
+                onClick={onUpdateRate}
+                disabled={isLoadingRate}
+                variant="ghost"
+                size="sm"
+                className="h-6 w-6 p-0 text-primary-foreground/80 hover:text-primary-foreground hover:bg-primary-foreground/10"
+              >
+                <RefreshCw className={`w-3 h-3 ${isLoadingRate ? 'animate-spin' : ''}`} />
+              </Button>
+            )}
+          </div>
+          {lastUpdated && (
+            <div className="flex items-center justify-center gap-1 text-xs text-primary-foreground/60 mt-1">
+              <Clock className="w-3 h-3" />
+              <span>Actualizado: {lastUpdated.toLocaleTimeString()}</span>
+            </div>
+          )}
         </div>
       </CardContent>
     </Card>

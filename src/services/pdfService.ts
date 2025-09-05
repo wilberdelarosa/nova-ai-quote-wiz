@@ -9,7 +9,13 @@ export class PDFService {
     selectedModules: Module[],
     totalAmount: number,
     usdRate: number,
-    isDarkTheme: boolean = false
+    isDarkTheme: boolean = false,
+    customContent?: {
+      companyEmail?: string;
+      companyPhone?: string;
+      notes?: string;
+      terms?: string[];
+    }
   ): Promise<void> {
     if (!clientName.trim()) {
       throw new Error('Por favor, ingresa el nombre del cliente antes de generar el PDF.');
@@ -19,7 +25,7 @@ export class PDFService {
       throw new Error('Por favor, selecciona al menos un módulo para generar la cotización.');
     }
 
-    const pdfContent = this.createPDFContent(clientName, projectType, selectedModules, totalAmount, usdRate, isDarkTheme);
+    const pdfContent = this.createPDFContent(clientName, projectType, selectedModules, totalAmount, usdRate, isDarkTheme, customContent);
     
     // Create temporary container for rendering
     const container = document.createElement('div');
@@ -75,7 +81,13 @@ export class PDFService {
     selectedModules: Module[],
     totalAmount: number,
     usdRate: number,
-    isDarkTheme: boolean = false
+    isDarkTheme: boolean = false,
+    customContent?: {
+      companyEmail?: string;
+      companyPhone?: string;
+      notes?: string;
+      terms?: string[];
+    }
   ): string {
     const currentDate = new Date().toLocaleDateString('es-DO', { 
       year: 'numeric', 
@@ -87,6 +99,17 @@ export class PDFService {
     const textColor = isDarkTheme ? '#f9fafb' : '#1f2937';
     const secondaryBg = isDarkTheme ? '#374151' : '#f8fafc';
     const borderColor = isDarkTheme ? '#4b5563' : '#5EEAD4';
+
+    const companyEmail = customContent?.companyEmail || "info.webnovalab@gmail.com";
+    const companyPhone = customContent?.companyPhone || "+1 (809) 123-4567";
+    const finalNotes = customContent?.notes || "Gracias por la oportunidad de cotizar para su proyecto. ¡Esperamos trabajar con ustedes!";
+    const terms = customContent?.terms || [
+      "El proyecto incluye 2 rondas de revisiones sin costo adicional",
+      "Cambios mayores fuera del alcance original se cotizarán por separado",
+      "El cliente debe proporcionar contenido y materiales dentro de 5 días hábiles",
+      "Garantía de 3 meses en funcionalidades desarrolladas",
+      "Soporte técnico gratuito por 30 días post-entrega"
+    ];
 
     return `
       <div style="font-family: 'Inter', Arial, sans-serif; margin: 0; padding: 40px; background: ${bgColor}; color: ${textColor}; line-height: 1.6;">
@@ -123,7 +146,7 @@ export class PDFService {
             </div>
             <p style="font-size: 18px; font-weight: 700; margin: 0; color: ${textColor};">Web Nova Lab</p>
             <p style="color: ${isDarkTheme ? '#9ca3af' : '#6b7280'}; margin: 0;">Soluciones Web y Marketing</p>
-            <p style="color: #5EEAD4; margin: 0;">info.webnovalab@gmail.com</p>
+            <p style="color: #5EEAD4; margin: 0;">${companyEmail}</p>
           </div>
         </div>
 
@@ -204,22 +227,18 @@ export class PDFService {
         </div>
 
         <!-- Terms and Conditions -->
-        <div style="margin-top: 40px; padding: 20px; background: ${secondaryBg}; border-radius: 8px; border-left: 4px solid ${borderColor};">
+        <div style="margin-top: 40px; padding: 20px; background: ${secondaryBg}; border-radius: 8px; border-left: 4px solid ${borderColor}; page-break-inside: avoid;">
           <h4 style="color: ${textColor}; margin-bottom: 15px;">📋 Términos y Condiciones</h4>
           <ul style="color: ${isDarkTheme ? '#9ca3af' : '#6b7280'}; font-size: 14px; line-height: 1.6;">
-            <li style="margin-bottom: 8px;">El proyecto incluye 2 rondas de revisiones sin costo adicional</li>
-            <li style="margin-bottom: 8px;">Cambios mayores fuera del alcance original se cotizarán por separado</li>
-            <li style="margin-bottom: 8px;">El cliente debe proporcionar contenido y materiales dentro de 5 días hábiles</li>
-            <li style="margin-bottom: 8px;">Garantía de 3 meses en funcionalidades desarrolladas</li>
-            <li style="margin-bottom: 8px;">Soporte técnico gratuito por 30 días post-entrega</li>
+            ${terms.map(term => `<li style="margin-bottom: 8px;">${term}</li>`).join('')}
           </ul>
         </div>
 
         <!-- Footer -->
-        <div style="margin-top: 40px; padding-top: 20px; border-top: 2px solid ${isDarkTheme ? '#4b5563' : '#e5e7eb'}; text-align: center; color: ${isDarkTheme ? '#9ca3af' : '#6b7280'}; font-size: 12px;">
-          <p>Gracias por la oportunidad de cotizar para su proyecto. ¡Esperamos trabajar con ustedes!</p>
+        <div style="margin-top: 40px; padding-top: 20px; border-top: 2px solid ${isDarkTheme ? '#4b5563' : '#e5e7eb'}; text-align: center; color: ${isDarkTheme ? '#9ca3af' : '#6b7280'}; font-size: 12px; page-break-inside: avoid;">
+          <p>${finalNotes}</p>
           <p style="margin-top: 15px;"><strong style="color: #5EEAD4; font-weight: 600;">Web Nova Lab</strong> - Transformamos ideas en soluciones digitales exitosas</p>
-          <p style="margin-top: 10px;">📧 info.webnovalab@gmail.com | 📱 WhatsApp: +1 (809) 123-4567</p>
+          <p style="margin-top: 10px;">📧 ${companyEmail} | 📱 WhatsApp: ${companyPhone}</p>
         </div>
       </div>
     `;
