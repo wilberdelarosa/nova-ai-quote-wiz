@@ -16,7 +16,7 @@ interface FloatingAIAssistantProps {
   projectType: string;
 }
 
-export const FloatingAIAssistant = ({ 
+export const FloatingAIAssistant = ({
   modules, 
   selectedModules, 
   onAddModule,
@@ -26,7 +26,8 @@ export const FloatingAIAssistant = ({
   const [isOpen, setIsOpen] = useState(false);
   const [prompt, setPrompt] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [suggestions, setSuggestions] = useState<any[]>([]);
+  type SuggestedModule = Omit<Module, 'id'>;
+  const [suggestions, setSuggestions] = useState<SuggestedModule[]>([]);
   const [lastResponse, setLastResponse] = useState("");
 
   const aiService = new AIService();
@@ -88,7 +89,7 @@ export const FloatingAIAssistant = ({
     tempDiv.innerHTML = response;
     const moduleButtons = tempDiv.querySelectorAll('.add-module-btn');
     
-    const newSuggestions: any[] = [];
+    const newSuggestions: SuggestedModule[] = [];
     moduleButtons.forEach(btn => {
       const name = btn.getAttribute('data-name');
       const price = btn.getAttribute('data-price');
@@ -106,7 +107,7 @@ export const FloatingAIAssistant = ({
     setSuggestions(newSuggestions);
   };
 
-  const handleAddSuggestedModule = (module: any) => {
+  const handleAddSuggestedModule = (module: SuggestedModule) => {
     onAddModule({
       name: module.name,
       price: module.price,
