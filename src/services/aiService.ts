@@ -1,6 +1,6 @@
 import { GROQ_MODELS, type Module, type AIAnalysis } from '../types/quotation';
 
-const GROQ_API_KEY = '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';
+const GROQ_API_KEY = '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';
 
 interface GroqMessage {
   role: 'system' | 'user' | 'assistant';
