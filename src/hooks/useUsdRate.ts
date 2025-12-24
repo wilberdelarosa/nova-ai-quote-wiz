@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import { fetchUsdToDopRate, updateExchangeRateFromEdge } from '@/services/exchangeRate';
 
 export const useUsdRate = () => {
@@ -7,7 +7,7 @@ export const useUsdRate = () => {
   const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
   const [source, setSource] = useState<string>('cache');
 
-  const fetchRate = useCallback(async () => {
+  const fetchRate = async () => {
     setIsLoading(true);
     try {
       const rate = await fetchUsdToDopRate();
@@ -19,9 +19,9 @@ export const useUsdRate = () => {
     } finally {
       setIsLoading(false);
     }
-  }, []);
+  };
 
-  const updateRate = useCallback(async () => {
+  const updateRate = async () => {
     setIsLoading(true);
     try {
       const rate = await updateExchangeRateFromEdge();
@@ -35,17 +35,20 @@ export const useUsdRate = () => {
     } finally {
       setIsLoading(false);
     }
-  }, [fetchRate]);
+  };
 
   useEffect(() => {
     // Initial fetch from database
     fetchRate();
     
     // Update from API every 30 minutes
-    const interval = setInterval(updateRate, 30 * 60 * 1000);
+    const interval = setInterval(() => {
+      updateRate();
+    }, 30 * 60 * 1000);
     
     return () => clearInterval(interval);
-  }, [fetchRate, updateRate]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return {
     usdRate,
