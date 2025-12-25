@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
@@ -27,6 +27,12 @@ export const ModuleCreator = ({
   const [name, setName] = useState(suggestedModule?.name || "");
   const [price, setPrice] = useState(suggestedModule?.price || 0);
   const [description, setDescription] = useState(suggestedModule?.description || "");
+
+  useEffect(() => {
+    setName(suggestedModule?.name || "");
+    setPrice(suggestedModule?.price || 0);
+    setDescription(suggestedModule?.description || "");
+  }, [suggestedModule]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();

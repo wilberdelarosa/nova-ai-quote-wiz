@@ -132,6 +132,24 @@ export class DatabaseService {
     };
   }
 
+  async updateQuotationStatus(id: string, status: string): Promise<void> {
+    const { error } = await supabase
+      .from('quotations')
+      .update({ status })
+      .eq('id', id);
+
+    if (error) throw error;
+  }
+
+  async deleteQuotation(id: string): Promise<void> {
+    const { error } = await supabase
+      .from('quotations')
+      .delete()
+      .eq('id', id);
+
+    if (error) throw error;
+  }
+
   // Knowledge Base
   async getKnowledgeBase(category?: string) {
     let query = supabase

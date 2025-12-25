@@ -12,12 +12,12 @@ interface ModuleCardProps {
   onDelete: (moduleId: number) => void;
 }
 
-export const ModuleCard = ({ 
-  module, 
-  isSelected, 
-  onToggleSelect, 
-  onEdit, 
-  onDelete 
+export const ModuleCard = ({
+  module,
+  isSelected,
+  onToggleSelect,
+  onEdit,
+  onDelete
 }: ModuleCardProps) => {
   const [isHovered, setIsHovered] = useState(false);
 
@@ -30,63 +30,64 @@ export const ModuleCard = ({
 
   return (
     <Card
-      className="group relative bg-gradient-card hover-gradient backdrop-blur-lg border border-white/10 hover:border-webnova-400/50 shadow-card hover-3d transition-all duration-500"
-
+      className={`group relative glass hover-lift transition-all duration-300 ${isSelected
+          ? 'ring-2 ring-webnova-500 ring-offset-2 ring-offset-background'
+          : 'hover:border-webnova-400/40'
+        }`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <CardContent className="p-6">
+      <CardContent className="p-4 sm:p-5">
         {/* Module Header */}
-        <div className="flex justify-between items-start mb-4">
-          <div className="flex-1 pr-4">
-            <h3 className="text-lg font-bold text-white group-hover:text-webnova-200 transition-colors duration-200 leading-tight mb-2 break-words">
+        <div className="flex justify-between items-start gap-3 mb-3">
+          <div className="flex-1 min-w-0">
+            <h3 className="text-base sm:text-lg font-bold text-white group-hover:text-webnova-200 transition-colors duration-200 leading-tight mb-1.5 break-words">
               {module.name}
             </h3>
-            <p className="text-2xl font-black text-webnova-300">
+            <p className="text-xl sm:text-2xl font-black text-webnova-300">
               RD$ {module.price.toLocaleString()}
             </p>
             {module.category && (
-              <span className="inline-block mt-2 px-2 py-1 bg-webnova-500/20 text-webnova-100 text-xs font-semibold rounded-full">
+              <span className="inline-block mt-2 px-2.5 py-1 bg-webnova-500/20 text-webnova-200 text-xs font-semibold rounded-full">
                 {module.category}
               </span>
             )}
           </div>
-          
-          {/* Action Buttons */}
-          <div className={`flex flex-col gap-2 transition-opacity duration-200 ${isHovered || isSelected ? 'opacity-100' : 'opacity-0'}`}>
+
+          {/* Action Buttons - Always visible on touch, hover on desktop */}
+          <div className={`flex flex-col gap-1.5 transition-opacity duration-200 ${isHovered || isSelected ? 'opacity-100' : 'opacity-0 sm:group-hover:opacity-100'
+            }`}>
             <Button
               onClick={() => onEdit(module)}
               size="sm"
-              className="p-2 bg-webnova-500 hover:bg-webnova-600 text-white rounded-full shadow-md transform hover:scale-110 hover:-translate-y-0.5 hover:rotate-6 transition-bounce"
-
+              className="p-2 h-8 w-8 bg-webnova-500/80 hover:bg-webnova-500 text-white rounded-lg shadow-sm transition-all hover:scale-105 active:scale-95"
             >
-              <Edit className="w-3 h-3" />
+              <Edit className="w-3.5 h-3.5" />
             </Button>
             <Button
               onClick={handleDelete}
               size="sm"
-              className="p-2 bg-red-500 hover:bg-red-600 text-white rounded-full shadow-md transform hover:scale-110 hover:-translate-y-0.5 hover:rotate-6 transition-bounce"
+              className="p-2 h-8 w-8 bg-red-500/80 hover:bg-red-500 text-white rounded-lg shadow-sm transition-all hover:scale-105 active:scale-95"
             >
-              <Trash2 className="w-3 h-3" />
+              <Trash2 className="w-3.5 h-3.5" />
             </Button>
           </div>
         </div>
 
         {/* Description */}
-        <div className="mb-6">
-          <p className="text-sm text-gray-200 leading-relaxed break-words line-clamp-3">
+        <div className="mb-4">
+          <p className="text-sm text-gray-300/90 leading-relaxed break-words line-clamp-2">
             {module.description}
           </p>
         </div>
-        
+
         {/* Action Button */}
         <Button
           onClick={() => onToggleSelect(module.id)}
-          className={`w-full py-3 font-bold shadow-md hover:shadow-glow transform hover:scale-105 transition-bounce hover-gradient ${
-            isSelected
-              ? 'bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white'
-              : 'bg-gradient-primary hover:bg-gradient-secondary text-white'
-          }`}
+          className={`w-full py-2.5 sm:py-3 font-semibold shadow-md transition-all duration-200 active:scale-98 ${isSelected
+              ? 'btn-danger'
+              : 'btn-primary'
+            }`}
         >
           {isSelected ? (
             <>
@@ -100,11 +101,11 @@ export const ModuleCard = ({
             </>
           )}
         </Button>
-        
+
         {/* Selected Indicator */}
         {isSelected && (
-          <div className="absolute -top-2 -right-2 bg-webnova-500 text-white rounded-full w-8 h-8 flex items-center justify-center text-sm font-bold shadow-lg animate-pulse">
-            <Check className="w-4 h-4" />
+          <div className="absolute -top-2 -right-2 bg-webnova-500 text-white rounded-full w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center shadow-lg animate-pulse-glow">
+            <Check className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
           </div>
         )}
       </CardContent>

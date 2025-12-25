@@ -17,7 +17,7 @@ interface ControlButtonsProps {
   onClearSelection: () => void;
 }
 
-export const ControlButtons = ({ 
+export const ControlButtons = ({
   clientName,
   projectType,
   modules,
@@ -105,7 +105,7 @@ export const ControlButtons = ({
       version: '3.0',
       totalAmount: totalAmount
     };
-    
+
     const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -115,7 +115,7 @@ export const ControlButtons = ({
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
-    
+
     toast({
       title: "Datos exportados",
       description: "Los datos se han exportado exitosamente.",
@@ -168,52 +168,61 @@ export const ControlButtons = ({
 
   return (
     <>
-      <div className="flex flex-wrap gap-3 justify-center pt-6 border-t border-white/20">
+      {/* Responsive button grid - stacked on mobile, row on desktop */}
+      <div className="grid grid-cols-2 sm:flex sm:flex-wrap gap-2 sm:gap-3 justify-center pt-4 sm:pt-6 border-t border-white/10">
+        {/* Preview PDF */}
         <Button
           onClick={handlePreviewPDF}
-          className="bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white font-bold shadow-lg transform hover:scale-105 transition-bounce flex items-center gap-2"
+          className="btn-mobile btn-info flex items-center justify-center gap-2 hover-lift"
         >
           <Eye className="w-4 h-4" />
-          Vista Previa PDF
+          <span className="hidden xs:inline">Vista Previa</span>
+          <span className="xs:hidden">Preview</span>
         </Button>
 
+        {/* Download PDF */}
         <Button
           onClick={handleDownloadPDF}
-          className="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-bold shadow-lg transform hover:scale-105 transition-bounce flex items-center gap-2"
+          className="btn-mobile btn-success flex items-center justify-center gap-2 hover-lift"
         >
           <FileText className="w-4 h-4" />
-          Descargar PDF
+          <span className="hidden xs:inline">Descargar PDF</span>
+          <span className="xs:hidden">PDF</span>
         </Button>
 
+        {/* Export JSON */}
         <Button
           onClick={handleExportData}
-          className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-bold shadow-lg transform hover:scale-105 transition-bounce flex items-center gap-2"
+          className="btn-mobile btn-primary flex items-center justify-center gap-2 hover-lift"
         >
           <Download className="w-4 h-4" />
-          Exportar JSON
+          <span className="hidden xs:inline">Exportar JSON</span>
+          <span className="xs:hidden">Exportar</span>
         </Button>
-        
+
+        {/* Import */}
         <Button
           onClick={handleImportData}
-          className="bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white font-bold shadow-lg transform hover:scale-105 transition-bounce flex items-center gap-2"
+          className="btn-mobile bg-gradient-to-r from-violet-500 to-purple-600 hover:from-violet-600 hover:to-purple-700 text-white shadow-md flex items-center justify-center gap-2 hover-lift"
         >
           <Upload className="w-4 h-4" />
-          Importar
+          <span>Importar</span>
         </Button>
-        
+
+        {/* Clear - full width on mobile */}
         <Button
           onClick={handleClearSelection}
-          className="bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-bold shadow-lg transform hover:scale-105 transition-bounce flex items-center gap-2"
+          className="btn-mobile btn-danger col-span-2 sm:col-span-1 flex items-center justify-center gap-2 hover-lift"
         >
           <Trash2 className="w-4 h-4" />
-          Limpiar
+          <span>Limpiar Selección</span>
         </Button>
 
         <input
           type="file"
           ref={fileInputRef}
           accept=".json"
-          style={{ display: 'none' }}
+          className="hidden"
           onChange={handleFileImport}
         />
       </div>
